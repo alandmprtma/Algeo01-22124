@@ -64,14 +64,34 @@ public class Matriks {
     // 3. Multiply
     public static Matriks Multiply(Matriks a, Matriks b) {
         Matriks c = new Matriks(a.row, b.col);
-
+        int i, j, k;
+        float jumlah = 0;
+        for (i = 0; i < a.row; i++)
+        {
+            for (j = 0; j < b.col; j++)
+            {
+                for (k = 0; k < b.row; k++)
+                {
+                    jumlah = jumlah + a.matrix[i][k]*b.matrix[k][j];
+                }
+                c.matrix[i][j] = jumlah;
+                jumlah = 0;
+            }
+        }
         return c;
     }
 
     // 4. Transpose
     public static Matriks Transpose(Matriks matriks) {
         Matriks transposeMatrix = new Matriks(matriks.col, matriks.row);
-
+        int i, j;
+        for (i = 0; i < matriks.row; i++)
+        {
+            for (j = 0; j < matriks.col; j++)
+            {
+                transposeMatrix.matrix[j][i] = matriks.matrix[i][j];
+            }
+        }
         return transposeMatrix;
     }
 
