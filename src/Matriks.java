@@ -10,39 +10,38 @@ public class Matriks {
     // Constructor
     Matriks(int r, int c) {
         this.matrix = new float[r][c];
+        this.row = r;
+        this.col = c;
     }
 
     // Methods
 
     // 1. ReadMatrix
-    public void readMatrix() {
-        Scanner scanner = new Scanner(System.in);
+    public void readMatrix(Scanner s) {
         System.out.println("======== Mengisi matriks row x col ========");
         
         System.out.print("row: ");
-        int row = scanner.nextInt();
+        int row = s.nextInt();
 
         System.out.print("col: ");
-        int col = scanner.nextInt();
+        int col = s.nextInt();
 
         this.matrix = new float[row][col];
         this.row = row;
         this.col = col;
-
+        
         int i;
         for (i = 0; i < row; i++) {
             int j = 0;
             for (j = 0; j < col; j++) {
                 System.out.printf("Matriks[%d][%d] = ", i+1, j+1);
-                this.matrix[i][j] = scanner.nextFloat();
+                this.matrix[i][j] = s.nextFloat();
             }
         }
         
         System.out.print("\n");
         
-        // Close scanner
-        scanner.close();
-     }
+    }
 
     // 2. PrintMatrix
     public void printMatrix() {
@@ -108,8 +107,21 @@ public class Matriks {
     }
 
     public static void main(String[] args) {
+        // Create scanner
+        Scanner scanner = new Scanner(System.in);
+        
         Matriks m = new Matriks(0, 0);
-        m.readMatrix();
+        m.readMatrix(scanner);
         m.printMatrix();
+
+        Matriks n = new Matriks(0, 0);
+        n.readMatrix(scanner);
+        n.printMatrix();
+
+        Matriks o = Multiply(m, n);
+        o.printMatrix();
+
+        // Close scanner
+        scanner.close();
     }
 }
