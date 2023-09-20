@@ -100,39 +100,53 @@ public class Matriks {
     }
 
     // 6. Kofaktor
-    // public float Kofaktor(int row, int col) {
-        
-    // }
+    public float Kofaktor(int row, int col) {
+        Matriks minorEntry = new Matriks(this.row - 1, this.col - 1);
+        int mrow = 0;
+        int mcol = 0;
+
+        int i, j;
+        for (i = 0; i < this.row; i++) {
+            for (j = 0; j < this.col; j++) {
+                if ((i != row) && (j != col)) {
+                    minorEntry.matrix[mrow][mcol] = this.matrix[i][j];
+                    mrow = (mcol + 1 == this.col - 1) ? mrow + 1 : mrow;
+                    mcol = (mcol + 1 == this.col - 1) ? 0 : mcol + 1; 
+                }
+            }
+        }
+
+        float kofaktor = Determinan.DeterminanKofaktor(minorEntry);
+        if ((row + col) % 2 != 0) {
+            kofaktor *= -1;
+        }
+        return kofaktor;
+    }
 
     // 7. Matriks Kofaktor
     public static Matriks MatriksKofaktor(Matriks matriks) {
-        if (matriks.row != matriks.col) {
-            throw new ArithmeticException("Tidak bisa menghitung matriks kofaktor, matriks yang diberikan bukan matriks persegi.");
-        } else {
-            Matriks matriksKofaktor = new Matriks(matriks.row, matriks.col);
+        Matriks matKofaktor = new Matriks(matriks.row, matriks.col);
 
-
-    
-    
-            return matriksKofaktor;
+        int i, j;
+        for (i = 0; i < matKofaktor.row; i++) {
+            for (j = 0; j < matKofaktor.col; j++) {
+                matKofaktor.matrix[i][j] = matriks.Kofaktor(i, j);
+            }
         }
-        
+
+        return matKofaktor;
     }
 
     public static void main(String[] args) {
         // Create scanner
         Scanner scanner = new Scanner(System.in);
-        
+
         Matriks m = new Matriks(0, 0);
         m.readMatrix(scanner);
         m.printMatrix();
+        System.out.println();
 
-        Matriks n = new Matriks(0, 0);
-        n.readMatrix(scanner);
-        n.printMatrix();
-
-        Matriks o = Multiply(m, n);
-        o.printMatrix();
+        SPL.SPLBalikan(m);
 
         // Close scanner
         scanner.close();
