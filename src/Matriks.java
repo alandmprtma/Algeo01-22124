@@ -99,11 +99,24 @@ public class Matriks {
 
     }
 
-    // 6. Matriks Kofaktor
-    public static Matriks Kofaktor(Matriks matriks) {
-        Matriks matriksKofaktor = new Matriks(matriks.row, matriks.col);
+    // 6. Kofaktor
+    // public float Kofaktor(int row, int col) {
+        
+    // }
 
-        return matriksKofaktor;
+    // 7. Matriks Kofaktor
+    public static Matriks MatriksKofaktor(Matriks matriks) {
+        if (matriks.row != matriks.col) {
+            throw new ArithmeticException("Tidak bisa menghitung matriks kofaktor, matriks yang diberikan bukan matriks persegi.");
+        } else {
+            Matriks matriksKofaktor = new Matriks(matriks.row, matriks.col);
+
+
+    
+    
+            return matriksKofaktor;
+        }
+        
     }
 
     public static void main(String[] args) {
