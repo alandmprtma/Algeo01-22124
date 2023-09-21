@@ -31,6 +31,16 @@ public class Balikan {
         int j;
         Matriks invers = Matriks.MatriksIdentitas(matriks.row);
         for (j = 0; j < matriks.col; j++) {
+            if (matriks.matrix[j][j] == 0) {
+                int k;
+                for (k = j; k < matriks.row; k++) {
+                    if (matriks.matrix[k][j] != 0) {
+                        matriks.OBE(2, j, -1, k);
+                        invers.OBE(2, j, -1, k);
+                        break;
+                    }
+                }
+            }
             double divisor = 1 / (double) matriks.matrix[j][j];
             // divisor *= (matriks.matrix[j][j] < 0) ? -1 : 1;
             matriks.OBE(1, j, divisor, -1);
@@ -50,7 +60,7 @@ public class Balikan {
             matriks.OBE(3, a, 0, 1);
             invers.OBE(3, a, 0, 1);
         }
-        
+
         return invers;
     }
 

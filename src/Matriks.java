@@ -172,7 +172,7 @@ public class Matriks {
         for (i = 0; i < this.row; i++) {
             for (j = 0; j < this.col; j++) {
                 matrixString += Double.toString(this.matrix[i][j]);
-                matrixString += ((j == this.col - 1) && (i < this.row - 1)) ? "\n" : "|";
+                matrixString += ((j == this.col - 1) && (i < this.row - 1)) ? "\n" : " ";
             }
         }
 
