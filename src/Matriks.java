@@ -1,15 +1,32 @@
-import java.util.*;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Matriks {
+    public static void main(String[] args) {
+        // Create scanner
+        Scanner scanner = new Scanner(System.in);
+
+
+        File file = new File("./test/tes.txt");
+
+        Matriks matriks = ReadMatrixFromFile(file);
+        matriks.printMatrix();
+
+        // Close scanner
+        scanner.close();
+    }
     
     // Attributes
-    float[][] matrix;
+    double[][] matrix;
     int row;
     int col;
 
     // Constructor
     Matriks(int r, int c) {
-        this.matrix = new float[r][c];
+        this.matrix = new double[r][c];
         this.row = r;
         this.col = c;
     }
@@ -26,7 +43,7 @@ public class Matriks {
         System.out.print("col: ");
         int col = s.nextInt();
 
-        this.matrix = new float[row][col];
+        this.matrix = new double[row][col];
         this.row = row;
         this.col = col;
         
@@ -35,7 +52,7 @@ public class Matriks {
             int j = 0;
             for (j = 0; j < col; j++) {
                 System.out.printf("Matriks[%d][%d] = ", i+1, j+1);
-                this.matrix[i][j] = s.nextFloat();
+                this.matrix[i][j] = s.nextDouble();
             }
         }
         
@@ -60,11 +77,68 @@ public class Matriks {
         }
     }
 
-    // 3. Multiply
+    // 3. ReadMatrixFromFile
+    public static Matriks ReadMatrixFromFile(File file) {
+        try {
+            Scanner scan = new Scanner(file);
+            Scanner scanCopy = new Scanner(file);
+            
+            int rows, cols;
+            rows = 0;
+            cols = 0;
+
+            while (scan.hasNextLine()) {
+                String str = scan.nextLine();
+                rows += 1;
+
+                if (rows == 1) {
+                    String[] firstLine = str.split(" ");
+                    cols = firstLine.length;
+                }
+            }
+
+            Matriks matriks = new Matriks(rows, cols);
+            int i, j;
+            for (i = 0; i < rows; i++) {
+                String row = scanCopy.nextLine();
+                String[] rowArray = row.split(" ");
+                for (j = 0; j < cols; j++) {
+                    matriks.matrix[i][j] = Double.parseDouble(rowArray[j]);
+                }
+            }
+
+            scan.close();
+            scanCopy.close();
+
+            return matriks;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    // 4. SaveMatrixToFile
+    public void SaveMatrixToFile(String filename) throws IOException {        
+        String matrixString = "";
+        int i, j;
+        for (i = 0; i < this.row; i++) {
+            for (j = 0; j < this.col; j++) {
+                matrixString += Double.toString(this.matrix[i][j]);
+                matrixString += ((j == this.col - 1) && (i < this.row - 1)) ? "\n" : "|";
+            }
+        }
+
+        FileWriter writer = new FileWriter("./test/" + filename);
+        writer.write(matrixString);
+        writer.close();
+    }
+
+    // 4. Multiply
     public static Matriks Multiply(Matriks a, Matriks b) {
         Matriks c = new Matriks(a.row, b.col);
         int i, j, k;
-        float jumlah = 0;
+        double jumlah = 0;
         for (i = 0; i < a.row; i++)
         {
             for (j = 0; j < b.col; j++)
@@ -80,7 +154,7 @@ public class Matriks {
         return c;
     }
 
-    // 4. Transpose
+    // 5. Transpose
     public static Matriks Transpose(Matriks matriks) {
         Matriks transposeMatrix = new Matriks(matriks.col, matriks.row);
         int i, j;
@@ -94,13 +168,13 @@ public class Matriks {
         return transposeMatrix;
     }
 
-    // 5. OBE
+    // 6. OBE
     public void OBE(int baris, int operasi) {
 
     }
 
-    // 6. Kofaktor
-    public float Kofaktor(int row, int col) {
+    // 7. Kofaktor
+    public double Kofaktor(int row, int col) {
         Matriks minorEntry = new Matriks(this.row - 1, this.col - 1);
         int mrow = 0;
         int mcol = 0;
@@ -116,14 +190,14 @@ public class Matriks {
             }
         }
 
-        float kofaktor = Determinan.DeterminanKofaktor(minorEntry);
+        double kofaktor = Determinan.DeterminanKofaktor(minorEntry);
         if ((row + col) % 2 != 0) {
             kofaktor *= -1;
         }
         return kofaktor;
     }
 
-    // 7. Matriks Kofaktor
+    // 8. Matriks Kofaktor
     public static Matriks MatriksKofaktor(Matriks matriks) {
         Matriks matKofaktor = new Matriks(matriks.row, matriks.col);
 
@@ -135,20 +209,5 @@ public class Matriks {
         }
 
         return matKofaktor;
-    }
-
-    public static void main(String[] args) {
-        // Create scanner
-        Scanner scanner = new Scanner(System.in);
-
-        Matriks m = new Matriks(0, 0);
-        m.readMatrix(scanner);
-        m.printMatrix();
-        System.out.println();
-
-        SPL.SPLBalikan(m);
-
-        // Close scanner
-        scanner.close();
     }
 }

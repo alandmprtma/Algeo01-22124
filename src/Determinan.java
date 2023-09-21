@@ -11,7 +11,7 @@ public class Determinan {
         m.printMatrix();
 
         System.out.println();
-        float det = DeterminanKofaktor(m);
+        double det = DeterminanKofaktor(m);
         System.out.printf("Determinan: %f", det);
 
         // Close scanner
@@ -19,20 +19,20 @@ public class Determinan {
     }
 
     // 1. OBE
-    // public static float DeterminanOBE(Matriks matriks) {
+    // public static double DeterminanOBE(Matriks matriks) {
 
     // }
 
     // 2. Ekspansi Kofaktor
-    public static float DeterminanKofaktor(Matriks matriks) {
+    public static double DeterminanKofaktor(Matriks matriks) {
         if (matriks.row == 2) {
-            float ad = matriks.matrix[0][0] * matriks.matrix[1][1];
-            float bc = matriks.matrix[0][1] * matriks.matrix[1][0];
+            double ad = matriks.matrix[0][0] * matriks.matrix[1][1];
+            double bc = matriks.matrix[0][1] * matriks.matrix[1][0];
 
             return ad - bc;
         } else {
             int i, j, k;
-            float det = 0;
+            double det = 0;
 
             for (i = 0; i < matriks.col; i++) {
                 Matriks minorEntry = new Matriks(matriks.row - 1, matriks.col - 1);
@@ -49,8 +49,8 @@ public class Determinan {
                     }
                 }
 
-                float x = DeterminanKofaktor(minorEntry);
-                float adder = matriks.matrix[0][i] * x;
+                double x = DeterminanKofaktor(minorEntry);
+                double adder = matriks.matrix[0][i] * x;
 
                 if (i % 2 != 0) {
                     adder = -1 * adder;
