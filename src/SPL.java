@@ -1,7 +1,7 @@
 public class SPL {
     // Methods
     public static void main(String[] args) {
-
+        
     }
 
     // 1. Gauss
@@ -10,7 +10,26 @@ public class SPL {
 
     // 2. Gauss-Jordan
     public static void SPLGaussJordan(Matriks matriks) {
+        int j;
+        for (j = 0; j < matriks.col - 1; j++) {
+            double divisor = 1 / (double) matriks.matrix[j][j];
+            matriks.OBE(1, j, divisor, -1);
 
+            int i;
+            for (i = 0; i < matriks.row; i++) {
+                if (i != j) {
+                    double adder = -1 * matriks.matrix[i][j];
+                    matriks.OBE(3, i, adder, j);
+                }
+            }
+            matriks.printMatrix();
+            System.out.println();
+        }
+        int a;
+        for (a = 0; a < matriks.row; a++) {
+            matriks.OBE(3, a, 0, 1);
+        }
+        matriks.printMatrix();
     }
 
     // 3. Matriks Balikan
