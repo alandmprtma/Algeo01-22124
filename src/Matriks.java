@@ -216,29 +216,6 @@ public class Matriks {
     }
 
     // 6. OBE
-    public void OBE(int operasi, int baris, double k, int baris2) {
-        // Operasi = 1 -> Kalikan baris dengan k
-        // Operasi = 2 -> Tukar baris dengan baris2
-        // Operasi = 3 -> Tambahkan baris dengan k * baris2
-        if (operasi == 1) {
-            int j;
-            for (j = 0; j < this.col; j++) {
-                this.matrix[baris][j] *= k;
-            }
-        } else if (operasi == 2) {
-            int j;
-            for (j = 0; j < this.col; j++) {
-                double temp = this.matrix[baris][j];
-                this.matrix[baris][j] = this.matrix[baris2][j];
-                this.matrix[baris2][j] = temp;
-            }
-        } else if (operasi == 3) {
-            int j;
-            for (j = 0; j < this.col; j++) {
-                this.matrix[baris][j] += k * this.matrix[baris2][j];
-            }
-        }
-    }
 
     // 7. Kofaktor
     public double Kofaktor(int row, int col) {
