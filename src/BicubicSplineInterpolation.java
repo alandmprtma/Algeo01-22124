@@ -20,7 +20,7 @@ public class BicubicSplineInterpolation {
         System.out.printf("%f, %f\n", x, y);
 
         System.out.println();
-        BicubicInterpolation(input, x, y);
+        // BicubicInterpolation(input, x, y);
 
         // Matriks MatriksX = MatriksX();
         // MatriksX.SaveMatrixToFile("matriksX.txt");
@@ -189,9 +189,7 @@ public class BicubicSplineInterpolation {
         return MatriksA;
     }
 
-    public static void BicubicInterpolation(Matriks input, float x, float y) {
-        Matriks MatriksA = MatriksA(input);
-
+    public static double GetBicubicSplineInterpolation(double x, double y, Matriks MatriksA) {
         int i;
         double result = 0;
         for (i = 0; i < 16; i++) {
@@ -217,7 +215,7 @@ public class BicubicSplineInterpolation {
 
             result += adder;
         }
-
-        System.out.printf("f(%.2f, %.2f) = %f", x, y, result);
+        return result;
+        // System.out.printf("f(%.2f, %.2f) = %f", x, y, result);
     }
 }

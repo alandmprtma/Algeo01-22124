@@ -176,7 +176,7 @@ public class Matriks {
             }
         }
 
-        FileWriter writer = new FileWriter("./test/" + filename);
+        FileWriter writer = new FileWriter(filename);
         writer.write(matrixString);
         writer.close();
     }
@@ -288,5 +288,27 @@ public class Matriks {
             }
         }
         return m;
+    }
+
+    // 10. Matriks Nol
+    public static Matriks MatriksNol(int n) {
+        Matriks m = new Matriks(n, n);
+        int i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++) {
+                m.matrix[i][j] = 0;
+            }
+        }
+        return m;   
+    }
+
+    // 11. Multiply by k
+    public void MultiplyByConstant(double k) {
+        int i, j;
+        for (i = 0; i < this.row; i++) {
+            for (j = 0; j < this.col; j++) {
+                this.matrix[i][j] *= k;
+            }
+        }
     }
 }
