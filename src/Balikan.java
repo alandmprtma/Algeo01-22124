@@ -27,9 +27,6 @@ public class Balikan {
     }
 
     // 1. Balikan Gauss-Jordan
-    // public static void BalikanGaussJordan(Matriks matriks) {
-
-    // }
 
     // 2. Balikan Adjoin
     public static Matriks BalikanAdjoin(Matriks matriks) {
