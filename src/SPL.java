@@ -14,9 +14,6 @@ public class SPL {
     }
 
     // 2. Gauss-Jordan
-    public static void SPLGaussJordan(Matriks matriks) {
-
-    }
 
     // 3. Matriks Balikan
     public static void SPLBalikan(Matriks matriks) {

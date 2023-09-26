@@ -5,15 +5,62 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Matriks {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Create scanner
         Scanner scanner = new Scanner(System.in);
 
+        // Operasi = 1 -> Kalikan baris dengan k
+        // Operasi = 2 -> Tukar baris dengan baris2
+        // Operasi = 3 -> Tambahkan baris dengan k * baris2
 
-        File file = new File("./test/tes.txt");
+        // File file = new File("./test/tesOBE.txt");
+        // Matriks matriks = ReadMatrixFromFile(file);
 
+        // System.out.print("Operasi: ");
+        // int operasi = scanner.nextInt();
+        // int baris, k, baris2;
+        // while (operasi != 0) {
+        //     if (operasi == 1) {
+        //         System.out.print("Baris: ");
+        //         baris = scanner.nextInt();
+
+        //         System.out.print("k: ");
+        //         k = scanner.nextInt();
+
+        //         matriks.OBE(1, baris - 1, k, -1);
+        //     } else if (operasi == 2) {
+        //         System.out.print("Baris 1: ");
+        //         baris = scanner.nextInt();
+
+        //         System.out.print("Baris 2: ");
+        //         baris2 = scanner.nextInt();
+
+        //         matriks.OBE(2, baris - 1, 1, baris2 - 1);
+        //     } else if (operasi == 3) {
+        //         System.out.print("Baris 1: ");
+        //         baris = scanner.nextInt();
+
+        //         System.out.print("Baris 2: ");
+        //         baris2 = scanner.nextInt();
+
+        //         System.out.print("k: ");
+        //         k = scanner.nextInt();
+
+        //         matriks.OBE(3, baris - 1, k, baris2 - 1);
+        //     }
+        //     matriks.printMatrix();
+
+        //     System.out.print("\nOperasi: ");
+        //     operasi = scanner.nextInt();
+        // }
+
+        // SPL.SPLGaussJordan(matriks);
+
+        File file = new File("./test/tes_balikangaussjordan.txt");
         Matriks matriks = ReadMatrixFromFile(file);
-        matriks.printMatrix();
+
+        Matriks inv = Balikan.BalikanGaussJordan(matriks);
+        inv.SaveMatrixToFile("result_bgj.txt");
 
         // Close scanner
         scanner.close();
@@ -125,11 +172,11 @@ public class Matriks {
         for (i = 0; i < this.row; i++) {
             for (j = 0; j < this.col; j++) {
                 matrixString += Double.toString(this.matrix[i][j]);
-                matrixString += ((j == this.col - 1) && (i < this.row - 1)) ? "\n" : "|";
+                matrixString += ((j == this.col - 1) && (i < this.row - 1)) ? "\n" : " ";
             }
         }
 
-        FileWriter writer = new FileWriter("./test/" + filename);
+        FileWriter writer = new FileWriter(filename);
         writer.write(matrixString);
         writer.close();
     }
@@ -169,9 +216,6 @@ public class Matriks {
     }
 
     // 6. OBE
-    public void OBE(int baris, int operasi) {
-
-    }
 
     // 7. Kofaktor
     public double Kofaktor(int row, int col) {
@@ -209,5 +253,39 @@ public class Matriks {
         }
 
         return matKofaktor;
+    }
+
+    // 9. Matriks Identitas
+    public static Matriks MatriksIdentitas(int n) {
+        Matriks m = new Matriks(n, n);
+        int i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++) {
+                m.matrix[i][j] = (i == j) ? 1 : 0;
+            }
+        }
+        return m;
+    }
+
+    // 10. Matriks Nol
+    public static Matriks MatriksNol(int n) {
+        Matriks m = new Matriks(n, n);
+        int i, j;
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++) {
+                m.matrix[i][j] = 0;
+            }
+        }
+        return m;   
+    }
+
+    // 11. Multiply by k
+    public void MultiplyByConstant(double k) {
+        int i, j;
+        for (i = 0; i < this.row; i++) {
+            for (j = 0; j < this.col; j++) {
+                this.matrix[i][j] *= k;
+            }
+        }
     }
 }

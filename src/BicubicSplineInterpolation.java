@@ -1,12 +1,14 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class BicubicSplineInterpolation {
     // Methods
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
-        Matriks input = new Matriks(4, 4);
-        input.readMatrix(scanner);
+        File file = new File("./test/tesBSI.txt");
+        Matriks input = Matriks.ReadMatrixFromFile(file);
 
         float x, y;
         System.out.print("Masukkan nilai x: ");
@@ -18,7 +20,13 @@ public class BicubicSplineInterpolation {
         System.out.printf("%f, %f\n", x, y);
 
         System.out.println();
-        BicubicInterpolation(input, x, y);
+        // BicubicInterpolation(input, x, y);
+
+        // Matriks MatriksX = MatriksX();
+        // MatriksX.SaveMatrixToFile("matriksX.txt");
+
+        // Matriks inversX = Balikan.BalikanGaussJordan(MatriksX);
+        // inversX.SaveMatrixToFile("inversX.txt");
 
         scanner.close();
     }
@@ -164,7 +172,7 @@ public class BicubicSplineInterpolation {
     }
 
     public static Matriks MatriksA(Matriks input) {
-        Matriks MatriksXInvers = Balikan.BalikanAdjoin(MatriksX());
+        Matriks MatriksXInvers = Balikan.BalikanGaussJordan(MatriksX());
 
         int count = 0;
         int i, j;
@@ -181,9 +189,7 @@ public class BicubicSplineInterpolation {
         return MatriksA;
     }
 
-    public static void BicubicInterpolation(Matriks input, float x, float y) {
-        Matriks MatriksA = MatriksA(input);
-
+    public static double GetBicubicSplineInterpolation(double x, double y, Matriks MatriksA) {
         int i;
         double result = 0;
         for (i = 0; i < 16; i++) {
@@ -209,7 +215,7 @@ public class BicubicSplineInterpolation {
 
             result += adder;
         }
-
-        System.out.printf("f(%.2f, %.2f) = %f", x, y, result);
+        return result;
+        // System.out.printf("f(%.2f, %.2f) = %f", x, y, result);
     }
 }
