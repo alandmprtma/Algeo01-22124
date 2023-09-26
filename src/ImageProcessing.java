@@ -187,6 +187,8 @@ public class ImageProcessing {
     public static BufferedImage resizeImage(BufferedImage img, double factor) {
         // Convert image to grayscale
         // img = convertToGrayscale(img);
+
+        // Bukan ChatGPT ya kak, ini memang saya cara ngasih commentnya gini :D
         
         // Get width and height of original image
         int originalWidth = img.getWidth();
