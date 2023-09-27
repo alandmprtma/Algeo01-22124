@@ -4,9 +4,9 @@ import java.util.Scanner;
 public class SPL {
     // Methods
     public static void main(String[] args) {
-        File file = new File("../matriks_cramer.txt");
-        Matriks m = Matriks.ReadMatrixFromFile(file);
-        SPLCramer(m);
+        // File file = new File("../matriks_cramer.txt");
+        // Matriks m = Matriks.ReadMatrixFromFile(file);
+        // SPLCramer(m);
     }
 
     // 1. Gauss
@@ -39,10 +39,16 @@ public class SPL {
 
     // 4. Cramer
     public static void SPLCramer(Matriks matriks) {
-        if (matriks.row == matriks.col)
+        if (matriks.row == matriks.col - 1)
         {
             //define determinan matriks
-            double determinanmatriks = Determinan.DeterminanKofaktor(matriks);
+            Matriks matriks_utama = new Matriks(matriks.row, matriks.col-1);
+            for (int i = 0; i < matriks.row; i++) {
+                for (int j = 0; j < matriks.col-1; j++) {
+                    matriks_utama.matrix[i][j] = matriks.matrix[i][j];
+                }
+            }
+            double determinanmatriks = Determinan.DeterminanKofaktor(matriks_utama);
             if (determinanmatriks == 0)
             {
                 System.out.println("Matriks tidak memiliki solusi!");
@@ -50,23 +56,23 @@ public class SPL {
             else
             {
                  //create scanner
-                Scanner scanner = new Scanner(System.in);
-
                 Matriks equation = new Matriks(matriks.row, 1);
-                equation.readMatrix(scanner);
-                Matriks cramer = new Matriks(matriks.row, matriks.col);
-                for (int i = 0; i < matriks.col; i++) 
+                for (int i = 0; i < matriks.row; i++) {
+                    equation.matrix[i][0] = matriks.matrix[i][matriks.col-1];                    
+                }
+                Matriks cramer = new Matriks(matriks_utama.row, matriks_utama.col);
+                for (int i = 0; i < matriks_utama.col; i++) 
                 {
-                    for (int j = 0; j < matriks.row; j++)
+                    for (int j = 0; j < matriks_utama.row; j++)
                     {
-                        for (int k = 0; k < matriks.col; k++)
+                        for (int k = 0; k < matriks_utama.col; k++)
                         {
                             if (i == k)
                             {
                                 cramer.matrix[j][k] = equation.matrix[j][0];
                             }
                             else{
-                                cramer.matrix[j][k] = matriks.matrix[j][k];
+                                cramer.matrix[j][k] = matriks_utama.matrix[j][k];
                             }
                         }
                     }
@@ -77,8 +83,7 @@ public class SPL {
             }
         }
         else{
-            System.out.println("Matriks tidak valid karena bukan merupakan matriks persegi!");
+            System.out.println("Matriks tidak valid karena bukan merupakan matriks augmented!");
         }
-
     }
 }
