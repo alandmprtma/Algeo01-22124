@@ -16,7 +16,7 @@ public class App {
 
         System.out.print("\nPilih menu: ");
         int choice = scanner.nextInt();
-        while (choice >= 1 && choice <= 7) {
+        while (choice < 1 && choice > 7) {
             System.out.print("\nPilih menu: ");
             choice = scanner.nextInt();
         }
@@ -31,7 +31,7 @@ public class App {
             }
             System.out.print("\nPilih menu: ");
             int choiceSPL = scanner.nextInt();
-            while (choiceSPL != 1 && choiceSPL != 2 && choiceSPL != 3 && choiceSPL != 4) {
+            while (choiceSPL < 1 && choiceSPL > 4) {
                 System.out.print("\nPilih menu: ");
                 choiceSPL = scanner.nextInt();
             }
