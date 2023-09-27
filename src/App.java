@@ -122,6 +122,7 @@ public class App {
         }
         System.out.print("Masukkan pilihan: ");
         int choiceinput = scanner.nextInt();
+        scanner.nextLine();
         if (choiceinput == 1)
         {
             matriks.readMatrix(scanner);
