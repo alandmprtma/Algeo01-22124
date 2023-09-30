@@ -310,4 +310,20 @@ public class Matriks {
             }
         }
     }
+
+    // 12. isSegitiga Bawah. Fungsi untuk menentukan apakah sebuah matriks adalah matriks segitiga bawah
+    public static boolean segitigaBawah(Matriks matriks){
+        boolean isSegitigaBawah = true;
+        for(int i = 0; i < matriks.row; i++){
+            for(int j = 0; j < matriks.col; j++){
+                if(i > j){
+                    if(matriks.matrix[i][j] != 0){
+                        isSegitigaBawah = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return isSegitigaBawah;
+    }
 }
