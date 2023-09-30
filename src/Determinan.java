@@ -19,9 +19,80 @@ public class Determinan {
     }
 
     // 1. OBE
-    // public static double DeterminanOBE(Matriks matriks) {
+    public static double DeterminanOBE(Matriks matriks) {
 
-    // }
+        double determinant = 0;
+        if(matriks.col != matriks.row){
+            System.out.println("bukan matriks persegi!");
+            return determinant;
+        } else{
+            // matriks adalah matriks persegi
+
+            int tuker = 0;
+            int iNotZero = 0, jNotZero = 0;
+            double pengali;
+            boolean c;
+
+            // conditional untuk ngecek apakah elemen pertama matriks != 0.
+            // kalau != 0 maka tukar baris
+            if(matriks.matrix[0][0] == 0){
+                int iTuker = 1;
+                for(int i = 1; i < matriks.row; i++){
+                    if(matriks.matrix[i][0] != 0){
+                        iTuker = i;
+                        tuker++;
+                        break;
+                    }
+                }
+                //operasi tuker baris
+                matriks.OBE(2, 0, 0, iTuker);
+            }
+            
+            c = matriks.segitigaBawah(matriks);
+
+            // while loop untuk operasi OBE sampai jadi matriks segitiga bawah
+            while(c == false){
+                // loop untuk cari indeks elemen segitiga bawah yang belum nol
+                BigLoop:
+                for(int j = 0; j < matriks.col; j++){
+                    for(int i = 0; i < matriks.row; i++){
+                        if(i > j){
+                            if(matriks.matrix[i][j] != 0){
+                                iNotZero = i;
+                                jNotZero = j;
+                                break BigLoop;
+                            }
+                        }
+                    }
+                }
+
+                // pengali untuk operasi obe 3
+                pengali = matriks.matrix[iNotZero][jNotZero] / matriks.matrix[jNotZero][jNotZero];
+                
+                // operasi obe 3
+                matriks.OBE(3, iNotZero, -pengali, jNotZero);
+
+                // pengecekan lagi apakah sudah matriks segitiga bawah
+                c = matriks.segitigaBawah(matriks);
+                matriks.printMatrix();
+                System.out.println("\n");
+            }
+
+            // conditional untuk tuker (-1)^tuker
+            if(tuker % 2 == 0){
+                tuker = 1;
+            } else{
+                tuker = -1;
+            }
+            // looping untuk perkalian semua diagonal utama
+            determinant = 1;
+            for (int i = 0; i < matriks.col; i++){
+                determinant *= matriks.matrix[i][i];
+            }
+            determinant *= tuker; 
+            return determinant;
+        }
+    }
 
     // 2. Ekspansi Kofaktor
     public static double DeterminanKofaktor(Matriks matriks) {
