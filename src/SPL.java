@@ -1,5 +1,5 @@
 import java.io.File;
-import java.util.Scanner;
+import java.util.Arrays;
 
 public class SPL {
     // Methods
@@ -12,25 +12,98 @@ public class SPL {
     // 1. Gauss
     public static void SPLGauss(Matriks matriks) {
         //Proses Pertukaran Baris
-        for (int i = 0; i < matriks.row; i++)
+        //Cek berapa banyak kosong dalam baris
+        int[] cekkosong;
+        cekkosong = new int[matriks.row];
+        
+        for (int i = 0;i<matriks.row;i++)
         {
-            for (int j = i+1; j < matriks.row; j++){
-                if (matriks.matrix[j][i] > matriks.matrix[i][i])
-                {
-                    matriks.OBE(2,i,1,j);
-                }
+            cekkosong[i]=0;
+            int j = 0;
+            while(j<matriks.col && matriks.matrix[i][j] == 0)
+            {
+                cekkosong[i]++;
+                j++;
             }
-            //Lakukan eliminasi Gauss pada kolom i
-            for (int j = i+1; j < matriks.row; j++) {
-                double faktor = matriks.matrix[j][i] / matriks.matrix[i][i];
-                for (int k = i; k < matriks.col; k++) {
-                    matriks.matrix[j][k] -= faktor * matriks.matrix[i][k];
+        }
+        int[] temp;
+        temp = new int[matriks.row];
+        
+        for (int i = 0;i<matriks.row;i++)
+        {
+            temp[i]=0;
+            int j = 0;
+            while(j<matriks.col && matriks.matrix[i][j] == 0)
+            {
+                temp[i]++;
+                j++;
+            }
+        }
+        Arrays.sort(temp);
+        
+        // urutin baris dari yang 0 nya paling dikit atau ga ada
+        for (int i = 0;i<matriks.row;i++)
+        {
+            if (cekkosong[i] != temp[i])
+            {
+                int k = i + 1;
+                boolean check = false;
+                while (check == false && k < matriks.row)
+                {
+                    if (cekkosong[i] == temp[k])
+                    {
+                        check = true;
+                        matriks.OBE(2,i,-1,k);
+                    }
+                    k++;
                 }
             }
         }
+
+        //Lakukan eliminasi Gauss pada kolom i
+        for (int i = 0; i<matriks.row; i++)
+        {
+            int j = i;
+            while (j < matriks.col-1 && matriks.matrix[i][j] == 0)
+            {
+                j++;
+            }
+            if (j < matriks.col -1)
+            {
+                double konstanta = 1/matriks.matrix[i][j]; 
+                matriks.OBE(1, i, konstanta, -1);
+                for (int k = i+1; k<matriks.row; k++)
+                {
+                    if (matriks.matrix[k][j] != 0)
+                    {
+                        matriks.OBE(3,k,(-1)*matriks.matrix[k][j],i);
+                    }
+                }
+            }
+        }
+        // Mendeteksi Minus Zero dan mengubah ke zero
+        for (int i = 0; i < matriks.row; i++)
+        {
+            for (int j = 0; j < matriks.col; j++)
+            {
+                if (matriks.matrix[i][j] == -0.0)
+                {
+                    matriks.matrix[i][j] = 0.0;
+                }
+            }
+        }
+        //Pembulatan elemen matriks
+        for (int i = 0;i<matriks.row;i++)
+        {
+            for (int j = 0;j<matriks.col;j++)
+            {
+                matriks.matrix[i][j] = Math.round(matriks.matrix[i][j] * 1000000.0) / 1000000.0;
+            }
+        }
+
         //Terbentuk Matriks Eselon Baris
         //Lakukan pengecekan apakah sistem persamaan linear memiliki solusi unik, solusi banyak, atau tidak memiliki solusi.
-
+        matriks.printMatrix();
         //Kasus SPL memiliki solusi banyak
         if (matriks.matrix[matriks.row-1][matriks.col-1] == 0 && matriks.matrix[matriks.row-1][matriks.col-2] == 0){
             System.out.println("Matriks memiliki solusi banyak!");
@@ -49,7 +122,11 @@ public class SPL {
                 for (int j = i+1; j < matriks.row; j++){
                     sum += matriks.matrix[i][j] * solusi[j];
                 }
-                solusi[i] = (matriks.matrix[i][matriks.row] - sum) / matriks.matrix[i][i];
+                if (matriks.matrix[i][i] != 0)
+                {
+                    solusi[i] = (matriks.matrix[i][matriks.row] - sum) / matriks.matrix[i][i];
+                    solusi[i] = Math.round(solusi[i] * 1000000.0) / 1000000.0;
+                }
             }
 
             //Cetak solusi

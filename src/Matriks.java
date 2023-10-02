@@ -181,7 +181,7 @@ public class Matriks {
         writer.close();
     }
 
-    // 4. Multiply
+    // 5. Multiply
     public static Matriks Multiply(Matriks a, Matriks b) {
         Matriks c = new Matriks(a.row, b.col);
         int i, j, k;
@@ -201,7 +201,7 @@ public class Matriks {
         return c;
     }
 
-    // 5. Transpose
+    // 6. Transpose
     public static Matriks Transpose(Matriks matriks) {
         Matriks transposeMatrix = new Matriks(matriks.col, matriks.row);
         int i, j;
@@ -215,7 +215,7 @@ public class Matriks {
         return transposeMatrix;
     }
 
-    // 6. OBE
+    // 7. OBE
     public void OBE(int operasi, int baris, double k, int baris2) {
         // Operasi = 1 -> Kalikan baris dengan k
         // Operasi = 2 -> Tukar baris dengan baris2
@@ -239,7 +239,7 @@ public class Matriks {
             }
         }
     }
-    // 7. Kofaktor
+    // 8. Kofaktor
     public double Kofaktor(int row, int col) {
         Matriks minorEntry = new Matriks(this.row - 1, this.col - 1);
         int mrow = 0;
@@ -263,7 +263,7 @@ public class Matriks {
         return kofaktor;
     }
 
-    // 8. Matriks Kofaktor
+    // 9. Matriks Kofaktor
     public static Matriks MatriksKofaktor(Matriks matriks) {
         Matriks matKofaktor = new Matriks(matriks.row, matriks.col);
 
@@ -277,7 +277,7 @@ public class Matriks {
         return matKofaktor;
     }
 
-    // 9. Matriks Identitas
+    // 10. Matriks Identitas
     public static Matriks MatriksIdentitas(int n) {
         Matriks m = new Matriks(n, n);
         int i, j;
@@ -289,7 +289,7 @@ public class Matriks {
         return m;
     }
 
-    // 10. Matriks Nol
+    // 11. Matriks Nol
     public static Matriks MatriksNol(int n) {
         Matriks m = new Matriks(n, n);
         int i, j;
@@ -301,7 +301,7 @@ public class Matriks {
         return m;   
     }
 
-    // 11. Multiply by k
+    // 12. Multiply by k
     public void MultiplyByConstant(double k) {
         int i, j;
         for (i = 0; i < this.row; i++) {
