@@ -1,5 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class SPL {
     // Methods
@@ -9,7 +13,27 @@ public class SPL {
         SPLGauss(m);
     }
 
-    // 1. Gauss
+    // 1. PrintSPLtoFile
+    public static void PrintSPLtoFile(double[] solusi) {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Masukkan nama file untuk menyimpan solusi SPL : ");
+            String cdfile;
+            cdfile = scanner.nextLine();
+            cdfile = "./output/" + cdfile + ".txt";
+            BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
+            for (int i = 0; i < solusi.length; i++)
+            {
+                tulis.write("x" + (i+1) + " = " + solusi[i] + "\n");
+            }
+            tulis.close();
+            scanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 2. Gauss
     public static void SPLGauss(Matriks matriks) {
         //Proses Pertukaran Baris
         //Cek berapa banyak kosong dalam baris
@@ -103,7 +127,6 @@ public class SPL {
 
         //Terbentuk Matriks Eselon Baris
         //Lakukan pengecekan apakah sistem persamaan linear memiliki solusi unik, solusi banyak, atau tidak memiliki solusi.
-        matriks.printMatrix();
         //Kasus SPL memiliki solusi banyak
         if (matriks.matrix[matriks.row-1][matriks.col-1] == 0 && matriks.matrix[matriks.row-1][matriks.col-2] == 0){
             System.out.println("Matriks memiliki solusi banyak!");
@@ -133,12 +156,13 @@ public class SPL {
             for (int i = 0; i < matriks.row; i++) {
                 System.out.println("X"+(i+1)+" = "+solusi[i]);
             }
+            PrintSPLtoFile(solusi);
         }
     }
 
-    // 2. Gauss-Jordan
+    // 3. Gauss-Jordan
 
-    // 3. Matriks Balikan
+    // 4. Matriks Balikan
     public static void SPLBalikan(Matriks matriks) {
         Matriks coefficients = new Matriks(matriks.row, matriks.col - 1);
         Matriks constants = new Matriks(matriks.row, 1);
@@ -160,7 +184,7 @@ public class SPL {
         results.printMatrix();
     }
 
-    // 4. Cramer
+    // 5. Cramer
     public static void SPLCramer(Matriks matriks) {
         if (matriks.row == matriks.col - 1)
         {
@@ -180,6 +204,7 @@ public class SPL {
             {
                  //create scanner
                 Matriks equation = new Matriks(matriks.row, 1);
+                double[] x = new double[matriks_utama.col];
                 for (int i = 0; i < matriks.row; i++) {
                     equation.matrix[i][0] = matriks.matrix[i][matriks.col-1];                    
                 }
@@ -200,9 +225,11 @@ public class SPL {
                         }
                     }
                 double determinancramer = Determinan.DeterminanKofaktor(cramer);
-                double x = determinancramer/determinanmatriks;
-                System.out.print("x" + (i+1) + " = " + x +"\n");          
+                //Cetak Solusi
+                x[i] = determinancramer/determinanmatriks;
+                System.out.print("x" + (i+1) + " = " + x[i] +"\n");          
                 }
+                PrintSPLtoFile(x);
             }
         }
         else{
