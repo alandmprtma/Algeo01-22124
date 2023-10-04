@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Determinan {
@@ -18,7 +21,26 @@ public class Determinan {
         scanner.close();
     }
 
-    // 1. OBE
+    // 1. PrintDeterminanToFile
+    public static void PrintDeterminantoFile(double determinan) {
+        try (Scanner scanner = new Scanner(System.in)){
+            System.out.print("Masukkan nama file untuk menyimpan hasil interpolasi : ");
+            String cdfile;
+            cdfile = scanner.nextLine();
+            cdfile = "../output/" + cdfile + ".txt";
+            BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
+            for (int i = 0; i < 1; i++)
+            {
+                tulis.write("Nilai determinan matriks adalah "+determinan+".");
+            }
+            tulis.close();
+            System.out.println("Data telah disimpan ke file " + cdfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 2. OBE
     public static double DeterminanOBE(Matriks matriks) {
 
         double determinant = 0;
@@ -94,7 +116,7 @@ public class Determinan {
         }
     }
 
-    // 2. Ekspansi Kofaktor
+    // 3. Ekspansi Kofaktor
     public static double DeterminanKofaktor(Matriks matriks) {
         if (matriks.row == 2) {
             double ad = matriks.matrix[0][0] * matriks.matrix[1][1];
