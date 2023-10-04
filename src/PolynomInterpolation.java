@@ -13,12 +13,11 @@ public class PolynomInterpolation {
     }
 
     public static void PrintPolinomtoFile(double y) {
-        try {
-            Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)){
             System.out.print("Masukkan nama file untuk menyimpan hasil interpolasi : ");
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "./output/" + cdfile + ".txt";
+            cdfile = "../output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             for (int i = 0; i < 1; i++)
             {
@@ -201,14 +200,12 @@ public class PolynomInterpolation {
     }
 
     public static Matriks bacaFileInterpolasi(){
-        try {
-            Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)){
             System.out.print("Masukkan nama file yang ingin diinterpolasi: ");
             String filename = scanner.next();
             filename = "../test/" + filename + ".txt";
             File file = new File(filename);
             while(!file.exists()){
-                 scanner = new Scanner(System.in);
                 System.out.print("File tidak ditemukan! Mohon masukkan kembali nama file: ");
                 filename = scanner.next();
                 filename = "../test/" + filename + ".txt";
@@ -244,7 +241,7 @@ public class PolynomInterpolation {
                 }
             }
             return matriks;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
