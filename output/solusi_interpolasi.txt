@@ -1,1 +1,1 @@
-nilai y yang telah ditaksir menggunakan fungsi polinom adalah 2.116084.
+nilai y yang telah ditaksir menggunakan fungsi polinom adalah 0.677543.
