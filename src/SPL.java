@@ -28,6 +28,7 @@ public class SPL {
             }
             tulis.close();
             scanner.close();
+            System.out.println("Data telah disimpan ke file " + cdfile);
         } catch (IOException e) {
             e.printStackTrace();
         }
