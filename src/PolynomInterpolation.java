@@ -13,16 +13,17 @@ public class PolynomInterpolation {
     }
 
     // 1. PrintPolinomToFile
-    public static void PrintPolinomtoFile(double y, Scanner scanner) {
+    public static void PrintPolinomtoFile(double y, Scanner scanner, String fx) {
         try {
             System.out.print("Masukkan nama file untuk menyimpan hasil interpolasi : ");
             scanner.nextLine();
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "./output/" + cdfile + ".txt";
+            cdfile = "../output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             for (int i = 0; i < 1; i++)
             {
+                tulis.write(fx+"\n");
                 tulis.write("nilai y yang telah ditaksir menggunakan fungsi polinom adalah "+y+".");
             }
             tulis.close();
@@ -189,13 +190,35 @@ public class PolynomInterpolation {
             //Mentaksir nilai y berdasarkan masukkan x dengan fungsi interpolasi
             //int i;
             double y = 0.0;
+            String fungsi = "f(x) = ";
+            for (i = 0; i < n; i++)
+            {
+                solusi[i] = Math.round(solusi[i] * 1000000.0) / 1000000.0;
+                if (i == 0)
+                {
+                    fungsi += Double.toString(solusi[i]);
+                }
+                else if (i == 1)
+                {
+                    fungsi += " " + Double.toString(solusi[i]) + "X";
+                }
+                else if (solusi[i] == 0)
+                {
+                    fungsi += "";
+                }
+                else
+                {
+                    fungsi += " " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
+                } 
+            }
             for (i = 0; i < n+1; i++)
             {
                 y += solusi[i]*Math.pow(x,i);
             }
             y = Math.round(y * 1000000.0) / 1000000.0;
+            System.out.println(fungsi);
             System.out.println("nilai y yang telah ditaksir menggunakan fungsi polinom adalah "+y+".");
-            PrintPolinomtoFile(y, scanner);
+            PrintPolinomtoFile(y, scanner, fungsi);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -210,7 +233,7 @@ public class PolynomInterpolation {
             while(!file.exists()){
                 System.out.print("File tidak ditemukan! Mohon masukkan kembali nama file: ");
                 filename = scanner.next();
-                filename = "./test/" + filename + ".txt";
+                filename = "../test/" + filename + ".txt";
                 file = new File(filename);
             }
             BufferedReader read = new BufferedReader(new FileReader(filename));
@@ -401,13 +424,35 @@ public class PolynomInterpolation {
             //Mentaksir nilai y berdasarkan masukkan x dengan fungsi interpolasi
             //int i;
             double y = 0.0;
+            String fungsi = "f(x) = ";
+            for (i = 0; i < n; i++)
+            {
+                solusi[i] = Math.round(solusi[i] * 1000000.0) / 1000000.0;
+                if (i == 0)
+                {
+                    fungsi += Double.toString(solusi[i]);
+                }
+                else if (i == 1)
+                {
+                    fungsi += " " + Double.toString(solusi[i]) + "X";
+                }
+                else if (solusi[i] == 0)
+                {
+                    fungsi += "";
+                }
+                else
+                {
+                    fungsi += " " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
+                } 
+            }
             for (i = 0; i < n; i++)
             {
                 y += solusi[i]*Math.pow(x,i);
             }
             y = Math.round(y * 1000000.0) / 1000000.0;
+            System.out.print(fungsi + "\n");
             System.out.print("nilai y yang telah ditaksir menggunakan fungsi polinom adalah "+y+".\n");
-            PrintPolinomtoFile(y,scanner);
+            PrintPolinomtoFile(y,scanner, fungsi);
         } catch (Exception e) {
             e.printStackTrace();
         }
