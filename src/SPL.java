@@ -1,5 +1,4 @@
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -8,9 +7,10 @@ import java.util.Scanner;
 public class SPL {
     // Methods
     public static void main(String[] args) {
-        File file = new File("../test/matriks_cramer.txt");
-        Matriks m = Matriks.ReadMatrixFromFile(file);
-        SPLGauss(m);
+        Scanner scanner = new Scanner(System.in);
+        Matriks matriks = new Matriks(0, 0);
+        matriks.readMatrix(scanner);
+        SPLGauss(matriks);
     }
 
     // 1. PrintSPLtoFile
@@ -34,7 +34,28 @@ public class SPL {
         }
     }
 
-    // 2. Gauss
+    // 2. PrintSolusiParametriktoFile
+    public static void PrintParametriktoFile(int n, String[][] variabel) {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Masukkan nama file untuk menyimpan solusi parametrik SPL : ");
+            String cdfile;
+            cdfile = scanner.nextLine();
+            cdfile = "../output/" + cdfile + ".txt";
+            BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
+            tulis.write("Solusi Parametrik :\n");
+            for (int i = 0; i < n; i++)
+            {
+                tulis.write("x" + i + " = " + variabel[i][0] + "\n");
+            }
+            tulis.close();
+            scanner.close();
+            System.out.println("Data telah disimpan ke file " + cdfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    // 3. Gauss
     public static void SPLGauss(Matriks matriks) {
         //Proses Pertukaran Baris
         //Cek berapa banyak kosong dalam baris
@@ -131,6 +152,80 @@ public class SPL {
         //Kasus SPL memiliki solusi banyak
         if (matriks.matrix[matriks.row-1][matriks.col-1] == 0 && matriks.matrix[matriks.row-1][matriks.col-2] == 0){
             System.out.println("Matriks memiliki solusi banyak!");
+            String [][] tempvariable = new String[matriks.col-1][3];
+            for (int i = 0; i < matriks.col - 1; i++)
+            {
+                int huruf =97 + i;
+                char temphuruf = (char) huruf;
+                tempvariable[i][0] = ""+temphuruf;
+                tempvariable[i][1] = "1";
+            }
+            for (int i = 0; i < matriks.row; i++)
+            {
+                for(int j = 0; j < matriks.col-1; j++)
+                {
+                    if(matriks.matrix[i][j]!=0)
+                    {
+                        tempvariable[j][0]="";
+                        tempvariable[j][1]="0";
+                        tempvariable[j][2]=Double.toString(matriks.matrix[i][j]);
+                        break;
+                    }
+                }
+            }
+            int count = matriks.col-2;
+            for (int i = matriks.row-1; i >= 0; i--)
+            {
+                double nilaisementara = 0;
+                if(tempvariable[count][1]=="0"){
+                    nilaisementara = (matriks.matrix[i][matriks.col-1]/(Double.valueOf(tempvariable[count][2])));
+                    int cek = 0;
+                    for(int j = 0; j < matriks.col-1;j++)
+                    {
+                        if (j!=count){
+                            if (matriks.matrix[i][j]!=0){
+                                matriks.matrix[i][j] = matriks.matrix[i][j]*(-1);
+                                if (tempvariable[j][1] == "0"){
+                                    if((matriks.matrix[i][j]/(Double.valueOf((tempvariable[count][2]))))>0){
+                                        nilaisementara = nilaisementara + ((matriks.matrix[i][j]/(Double.valueOf(tempvariable[count][2])))*Double.valueOf(tempvariable[j][0]));
+                                    }
+                                }
+                                else{
+                                    tempvariable[count][1] = "1";
+                                    if (matriks.matrix[i][j]> 0 && tempvariable[count][0]!=""){
+                                        tempvariable[count][0] = tempvariable[count][0] + " + ";
+                                    }
+                                    tempvariable[count][0] = tempvariable[count][0] + Double.toString(matriks.matrix[i][j]/(Double.valueOf(tempvariable[count][2]))) + tempvariable[j][0];
+                                }
+                            }
+                        }
+                    }
+                    for(int k = 0;k<matriks.col-1;k++){
+                        if(matriks.matrix[i][k]!=0){
+                            cek = 1;
+                        }
+                    }
+                    if (cek == 0){
+                        count ++;
+                    }
+                    else if(nilaisementara<0){
+                        tempvariable[count][0] = ""+tempvariable[count][0] + " - " + Double.toString(Math.abs(nilaisementara)); 
+                    }
+                    else if(nilaisementara != 0 || (nilaisementara == 0 && tempvariable[count][0] == "")){
+                        tempvariable[count][0] = ""+tempvariable[count][0] + " + " + Double.toString(Math.abs(nilaisementara)); 
+                    }
+                    count--;
+                }
+                else{
+                    count--;
+                    i++;
+                }
+            }
+            System.out.println("Solusi Parametrik :");
+            for(int i = 0; i < matriks.col-1; i++){
+                System.out.println("x" + i + " = " + tempvariable[i][0]);
+            }
+            PrintParametriktoFile(matriks.col-1, tempvariable);
         }
         //Kasus SPL tidak memiliki solusi
         else if (matriks.matrix[matriks.row-1][matriks.col-1] != 0 && matriks.matrix[matriks.row-1][matriks.col-2] == 0){
@@ -161,9 +256,9 @@ public class SPL {
         }
     }
 
-    // 3. Gauss-Jordan
+    // 4. Gauss-Jordan
 
-    // 4. Matriks Balikan
+    // 5. Matriks Balikan
     public static void SPLBalikan(Matriks matriks) {
         Matriks coefficients = new Matriks(matriks.row, matriks.col - 1);
         Matriks constants = new Matriks(matriks.row, 1);
@@ -185,7 +280,7 @@ public class SPL {
         results.printMatrix();
     }
 
-    // 5. Cramer
+    // 6. Cramer
     public static void SPLCramer(Matriks matriks) {
         if (matriks.row == matriks.col - 1)
         {
