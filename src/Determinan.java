@@ -49,6 +49,17 @@ public class Determinan {
             return determinant;
         } else{
             // matriks adalah matriks persegi
+            for(int i = 0; i < matriks.row; i++){
+                if(matriks.rowZero(matriks, i)){
+                    return 0;
+                }
+            }
+
+            for(int j = 0; j < matriks.col; j++){
+                if(matriks.colZero(matriks, j)){
+                    return 0;
+                }
+            }
 
             int tuker = 0;
             int iNotZero = 0, jNotZero = 0;
