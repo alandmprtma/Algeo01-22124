@@ -12,6 +12,7 @@ public class PolynomInterpolation {
         PolinomInterpolasiKey();
     }
 
+    // 1. PrintPolinomToFile
     public static void PrintPolinomtoFile(double y) {
         try (Scanner scanner = new Scanner(System.in)){
             System.out.print("Masukkan nama file untuk menyimpan hasil interpolasi : ");
@@ -30,7 +31,7 @@ public class PolynomInterpolation {
         }
     }
 
-
+    // 2. Polinom Interpolasi menggunakan masukan keyboard user
     public static void PolinomInterpolasiKey(){
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("======== Mengisi derajat polinom (n) ========");
@@ -247,6 +248,7 @@ public class PolynomInterpolation {
         }
     }
 
+    // 3. Polinom Interpolasi menggunakan file external
     public static void PolinomInterpolasiFile(){
         try (Scanner scanner = new Scanner(System.in)) {
             // Kode Anda di sini
