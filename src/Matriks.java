@@ -326,4 +326,26 @@ public class Matriks {
         }
         return isSegitigaBawah;
     }
+
+    // 13. semua elemen kolom zero
+    public static boolean colZero(Matriks matriks, int col){
+        boolean zero = true;
+        for (int i = 0; i < matriks.row; i++){
+            if(matriks.matrix[i][col] != 0){
+                zero = false;
+            }
+        }
+        return zero;
+    }
+
+    // 14. semua elemen baris zero
+    public static boolean rowZero(Matriks matriks, int row){
+        boolean zero = true;
+        for(int j = 0; j < matriks.col; j++){
+            if(matriks.matrix[row][j] != 0){
+                zero = false;
+            }
+        }
+        return zero;
+    }
 }
