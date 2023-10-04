@@ -22,6 +22,7 @@ public class SPL {
             cdfile = scanner.nextLine();
             cdfile = "./output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
+            tulis.write("Solusi SPL :\n");
             for (int i = 0; i < solusi.length; i++)
             {
                 tulis.write("x" + (i+1) + " = " + solusi[i] + "\n");
@@ -249,6 +250,7 @@ public class SPL {
             }
 
             //Cetak solusi
+            System.out.println("Solusi SPL :");
             for (int i = 0; i < matriks.row; i++) {
                 System.out.println("X"+(i+1)+" = "+solusi[i]);
             }

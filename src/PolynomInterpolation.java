@@ -9,16 +9,17 @@ import java.io.File;
 
 public class PolynomInterpolation {
     public static void main(String[] args) {
-        PolinomInterpolasiKey();
+        PolinomInterpolasiFile();
     }
 
     // 1. PrintPolinomToFile
-    public static void PrintPolinomtoFile(double y) {
-        try (Scanner scanner = new Scanner(System.in)){
+    public static void PrintPolinomtoFile(double y, Scanner scanner) {
+        try {
             System.out.print("Masukkan nama file untuk menyimpan hasil interpolasi : ");
+            scanner.nextLine();
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "../output/" + cdfile + ".txt";
+            cdfile = "./output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             for (int i = 0; i < 1; i++)
             {
@@ -194,14 +195,14 @@ public class PolynomInterpolation {
             }
             y = Math.round(y * 1000000.0) / 1000000.0;
             System.out.println("nilai y yang telah ditaksir menggunakan fungsi polinom adalah "+y+".");
-            PrintPolinomtoFile(y);
+            PrintPolinomtoFile(y, scanner);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static Matriks bacaFileInterpolasi(){
-        try (Scanner scanner = new Scanner(System.in)){
+    public static Matriks bacaFileInterpolasi(Scanner scanner){
+        try {
             System.out.print("Masukkan nama file yang ingin diinterpolasi: ");
             String filename = scanner.next();
             filename = "../test/" + filename + ".txt";
@@ -209,7 +210,7 @@ public class PolynomInterpolation {
             while(!file.exists()){
                 System.out.print("File tidak ditemukan! Mohon masukkan kembali nama file: ");
                 filename = scanner.next();
-                filename = "../test/" + filename + ".txt";
+                filename = "./test/" + filename + ".txt";
                 file = new File(filename);
             }
             BufferedReader read = new BufferedReader(new FileReader(filename));
@@ -254,7 +255,7 @@ public class PolynomInterpolation {
             // Kode Anda di sini
             System.out.print("======== Mengisi derajat polinom (n) ========\n");
             Matriks matriks = new Matriks(0, 0);
-            matriks = bacaFileInterpolasi();
+            matriks = bacaFileInterpolasi(scanner);
             int i;
             double []varx = new double[matriks.row-1];
             double []vary = new double[matriks.row-1];
@@ -406,7 +407,7 @@ public class PolynomInterpolation {
             }
             y = Math.round(y * 1000000.0) / 1000000.0;
             System.out.print("nilai y yang telah ditaksir menggunakan fungsi polinom adalah "+y+".\n");
-            PrintPolinomtoFile(y);
+            PrintPolinomtoFile(y,scanner);
         } catch (Exception e) {
             e.printStackTrace();
         }
