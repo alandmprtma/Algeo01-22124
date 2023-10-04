@@ -1,5 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class App {
@@ -137,7 +136,7 @@ public class App {
             cdSPL = "../test/" + cdSPL + ".txt";
             File file = new File(cdSPL);
             while (!file.exists()) {
-                System.out.print("File tidak ditemukan! Mohon masukkan ulang nama file: ");
+                System.out.print("File tidak ditemukan! Mohon masukkan kembali nama file: ");
                 cdSPL = scanner.nextLine();
 
                 cdSPL = "../test/" + cdSPL + ".txt";
