@@ -6,19 +6,19 @@ import java.util.Scanner;
 public class Determinan {
     // Methods
     public static void main(String[] args) {
-        // Create scanner
-        Scanner scanner = new Scanner(System.in);
+        // // Create scanner
+        // Scanner scanner = new Scanner(System.in);
 
-        Matriks m = new Matriks(0, 0);
-        m.readMatrix(scanner);
-        m.printMatrix();
+        // Matriks m = new Matriks(0, 0);
+        // m.readMatrix(scanner);
+        // m.printMatrix();
 
-        System.out.println();
-        double det = DeterminanKofaktor(m);
-        System.out.printf("Determinan: %f", det);
+        // System.out.println();
+        // double det = DeterminanKofaktor(m);
+        // System.out.printf("Determinan: %f", det);
 
-        // Close scanner
-        scanner.close();
+        // // Close scanner
+        // scanner.close();
     }
 
     // Driver
@@ -35,14 +35,18 @@ public class Determinan {
         int choiceDeterminan = App.askInput(1, 2, scanner);
 
         // Run code for chosen method
+        double det;
         if (choiceDeterminan == 1) {
-            Matriks m = App.askMatriksInput(scanner);
-            Determinan.DeterminanOBE(m);
+            Matriks m = App.askMatriksInput(scanner, 2);
+            det = Determinan.DeterminanOBE(m);
         }
         else {
-            Matriks m = App.askMatriksInput(scanner);
-            Determinan.DeterminanKofaktor(m); 
+            Matriks m = App.askMatriksInput(scanner, 2);
+            det = Determinan.DeterminanKofaktor(m);
         }
+
+        String outputStr = String.format("Determinan = %f\n", det);
+        App.slowprint(outputStr);
     }
 
     // 1. PrintDeterminanToFile
@@ -131,8 +135,6 @@ public class Determinan {
 
                 // pengecekan lagi apakah sudah matriks segitiga bawah
                 c = Matriks.segitigaBawah(matriks);
-                matriks.printMatrix();
-                System.out.println("\n");
             }
 
             // conditional untuk tuker (-1)^tuker

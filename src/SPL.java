@@ -7,10 +7,10 @@ import java.util.Scanner;
 public class SPL {
     // Methods
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Matriks matriks = new Matriks(0, 0);
-        matriks.readMatrix(scanner);
-        SPLGauss(matriks);
+        // Scanner scanner = new Scanner(System.in);
+        // Matriks matriks = new Matriks(0, 0);
+        // matriks.readMatrix(scanner);
+        // SPLGauss(matriks);
     }
 
     // Driver
@@ -28,13 +28,13 @@ public class SPL {
 
         // Ask for input
         int choiceSPL = App.askInput(1, 4, scanner);
-        Matriks m = App.askMatriksInput(scanner);
+        Matriks m = App.askMatriksInput(scanner, 1);
 
         // Run code for chosen method
         if (choiceSPL == 1) {
             SPLGauss(m);
         } else if (choiceSPL == 2) {
-
+            SPLGaussJordan(m);
         } else if (choiceSPL == 3) {
             SPLBalikan(m);
         } else {
