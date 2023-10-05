@@ -497,6 +497,7 @@ public class SPL {
                 System.out.println("x"+(i+1)+": "+matriks.matrix[i][matriks.col-1]);
                 nilai[i] = matriks.matrix[i][matriks.col-1];
             }
+            PrintSPLtoFile(nilai);
         }
     }
 
