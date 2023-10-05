@@ -13,6 +13,35 @@ public class SPL {
         SPLGauss(matriks);
     }
 
+    // Driver
+    public static void driverSPL(Scanner scanner) {
+        // Header
+        App.slowprint("Mencari Sistem Persamaan Linear");
+
+        String[] SPL_choice = {
+            "1. Metode Eliminasi Gauss",
+            "2. Metode Eliminasi Gauss-Jordan",
+            "3. Metode Matriks balikan",
+            "4. Kaidah Cramer"
+        };
+        App.printMenu(SPL_choice);
+
+        // Ask for input
+        int choiceSPL = App.askInput(1, 4, scanner);
+        Matriks m = App.askMatriksInput(scanner);
+
+        // Run code for chosen method
+        if (choiceSPL == 1) {
+            SPLGauss(m);
+        } else if (choiceSPL == 2) {
+
+        } else if (choiceSPL == 3) {
+            SPLBalikan(m);
+        } else {
+            SPLCramer(m);
+        }
+    }
+
     // 1. PrintSPLtoFile
     public static void PrintSPLtoFile(double[] solusi) {
         try {
@@ -29,7 +58,7 @@ public class SPL {
             }
             tulis.close();
             scanner.close();
-            System.out.println("Data telah disimpan ke file " + cdfile);
+            App.slowprint("Data telah disimpan ke file " + cdfile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +80,7 @@ public class SPL {
             }
             tulis.close();
             scanner.close();
-            System.out.println("Data telah disimpan ke file " + cdfile);
+            App.slowprint("Data telah disimpan ke file " + cdfile);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,7 +181,7 @@ public class SPL {
         //Lakukan pengecekan apakah sistem persamaan linear memiliki solusi unik, solusi banyak, atau tidak memiliki solusi.
         //Kasus SPL memiliki solusi banyak
         if (matriks.matrix[matriks.row-1][matriks.col-1] == 0 && matriks.matrix[matriks.row-1][matriks.col-2] == 0){
-            System.out.println("Matriks memiliki solusi banyak!");
+            App.slowprint("Matriks memiliki solusi banyak!");
             String [][] tempvariable = new String[matriks.col-1][3];
             for (int i = 0; i < matriks.col - 1; i++)
             {
@@ -222,15 +251,15 @@ public class SPL {
                     i++;
                 }
             }
-            System.out.println("Solusi Parametrik :");
+            App.slowprint("Solusi Parametrik :");
             for(int i = 0; i < matriks.col-1; i++){
-                System.out.println("x" + i + " = " + tempvariable[i][0]);
+                App.slowprint("x" + i + " = " + tempvariable[i][0]);
             }
             PrintParametriktoFile(matriks.col-1, tempvariable);
         }
         //Kasus SPL tidak memiliki solusi
         else if (matriks.matrix[matriks.row-1][matriks.col-1] != 0 && matriks.matrix[matriks.row-1][matriks.col-2] == 0){
-            System.out.println("Matriks tidak memiliki solusi!");
+            App.slowprint("Matriks tidak memiliki solusi!");
         }
         //Kasus SPL memiliki solusi unik
         else
@@ -250,9 +279,9 @@ public class SPL {
             }
 
             //Cetak solusi
-            System.out.println("Solusi SPL :");
+            App.slowprint("Solusi SPL :");
             for (int i = 0; i < matriks.row; i++) {
-                System.out.println("X"+(i+1)+" = "+solusi[i]);
+                App.slowprint("X"+(i+1)+" = "+solusi[i]);
             }
             PrintSPLtoFile(solusi);
         }
@@ -296,7 +325,7 @@ public class SPL {
             double determinanmatriks = Determinan.DeterminanKofaktor(matriks_utama);
             if (determinanmatriks == 0)
             {
-                System.out.println("Matriks tidak memiliki solusi atau matriks memiliki solusi banyak!");
+                App.slowprint("Matriks tidak memiliki solusi atau matriks memiliki solusi banyak!");
             }
             else
             {
@@ -331,7 +360,7 @@ public class SPL {
             }
         }
         else{
-            System.out.println("Matriks tidak valid karena bukan merupakan matriks augmented!");
+            App.slowprint("Matriks tidak valid karena bukan merupakan matriks augmented!");
         }
     }
 }

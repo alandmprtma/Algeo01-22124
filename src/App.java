@@ -1,156 +1,166 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        // Scanner definition
         Scanner scanner = new Scanner(System.in);
         
-        System.out.println("MENU");
+        // Header
+        slowprint("MENU");
 
-
-        String[] menu = {"1. Sistem Persamaan Linear", "2. Determinan", "3. Matriks Balikan", "4. Interpolasi Polinom", "5. Interpolasi Bicubic Spline", "6. Regresi Linier Berganda", "7. Keluar"};
+        String[] menu = {
+            "1. Sistem Persamaan Linear", 
+            "2. Determinan", 
+            "3. Matriks Balikan", 
+            "4. Interpolasi Polinom", 
+            "5. Interpolasi Bicubic Spline", 
+            "6. Regresi Linier Berganda", 
+            "7. Keluar"};
         for (String x : menu) {
-            System.out.println(x);
+            slowprint(x);
         }
 
-        System.out.print("\nPilih menu: ");
-        int choice = scanner.nextInt();
-        while (choice < 1 && choice > 7) {
-            System.out.print("\nPilih menu: ");
-            choice = scanner.nextInt();
-        }
-        if (choice == 1)
-        {
-            System.out.println("Sistem Persamaan Linear");
+        // Ask for menu input
+        int choice = askInput(1, 7, scanner);
 
-            String[] SPL_choice = {"1. Metode eliminasi Gauss", "2. Metode eliminasi Gauss-Jordan", "3. Metode matriks balikan", "4. Kaidah cramer"};
-            for (String x : SPL_choice)
-            {
-                System.out.println(x);
-            }
-            System.out.print("\nPilih menu: ");
-            int choiceSPL = scanner.nextInt();
-            while (choiceSPL < 1 && choiceSPL > 4) {
-                System.out.print("\nPilih menu: ");
-                choiceSPL = scanner.nextInt();
-            }
-            if (choiceSPL == 1)
-            {
-                Matriks m = askMatriksInput(scanner);
-            }
-            else if (choiceSPL == 2)
-            {
-                Matriks m = askMatriksInput(scanner);
-            }
-            else if (choiceSPL == 3)
-            {
-                Matriks m = askMatriksInput(scanner);
-                SPL.SPLBalikan(m);
-            }
-            else
-            {
-                Matriks m = askMatriksInput(scanner);
-                SPL.SPLCramer(m);
-            }
+        // Run code for chosen menu item
+        if (choice == 1) {
+            SPL.driverSPL(scanner);
         }
 
-        else if (choice == 2)
-        {
-            System.out.println("Determinan");
-            String[] Determinan_choice = {"1. Determinan dengan operasi baris elementer (OBE)", "2. Determinan dengan ekspansi kofaktor"};
-            for (String x : Determinan_choice)
-            {
-                System.out.println(x);
-            }
-            System.out.print("\nPilih menu: ");
-            int choiceDeterminan = scanner.nextInt();
-            while (choiceDeterminan != 1 && choiceDeterminan != 2)
-            {
-                System.out.print("\nPilih menu: ");
-                choiceDeterminan = scanner.nextInt();
-            }
-            if (choiceDeterminan == 1) {
-                Matriks m = askMatriksInput(scanner);
-            }
-            else{
-                Matriks m = askMatriksInput(scanner);
-                Determinan.DeterminanKofaktor(m); 
-            }
+        else if (choice == 2) {
+            Determinan.DriverDeterminan(scanner);
         }
 
-        else if (choice == 3)
-        {
-            System.out.println("Matriks Balikan");
-            String[] balikan_choice = {"1. Matriks balikan dengan metode Gauss-Jordan", "2. Matriks balikan dengan adjoin"};
-            for (String x : balikan_choice)
-            {
-                System.out.println(x);
-            }
-            System.out.print("\nPilih menu: ");
-            int choiceBalikan = scanner.nextInt();
-            while (choiceBalikan != 1 && choiceBalikan != 2)
-            {
-                System.out.print("\nPilih menu: ");
-                choiceBalikan = scanner.nextInt();
-            }
-            if (choiceBalikan == 1)
-            {
-                Matriks m = askMatriksInput(scanner);
-                Balikan.BalikanGaussJordan(m);
-            }
-            else{
-                Matriks m = askMatriksInput(scanner);
-                Balikan.BalikanAdjoin(m);
-            }
+        else if (choice == 3) {
+            Balikan.driverBalikan(scanner);
         }
-
-        
-
 
         // Close scanner
         scanner.close();
     }
 
+    // Additional Functions
+    // 1. Ask for terminal matrix input
     public static Matriks askMatriksInput(Scanner scanner) {
         Matriks matriks = new Matriks(0, 0);
-        System.out.println("\nPilih metode untuk input: ");
-        String[] input = {"1. Input melalui terminal", "2. Input dari suatu file .txt"};
-        for (String x : input)
-        {
-            System.out.println(x);
-        }
-        System.out.print("Masukkan pilihan: ");
-        int choiceinput = scanner.nextInt();
-        scanner.nextLine();
-        if (choiceinput == 1)
-        {
+        
+        // Header
+        slowprint("\nPilih metode untuk input: ");
+        
+        String[] input = {
+            "1. Input melalui terminal", 
+            "2. Input dari suatu file .txt"
+        };
+        printMenu(input);
+
+        int choice = askInput(1, 2, scanner);
+
+        // Input terminal
+        if (choice == 1) {
             matriks.readMatrix(scanner);
-
             return matriks;
-        }
-        else if (choiceinput == 2)
-        {
-            System.out.print("Masukkan nama file matriks: ");
-            String cdSPL; 
-            cdSPL = scanner.nextLine();
-            cdSPL = "../test/" + cdSPL + ".txt";
-            File file = new File(cdSPL);
-            while (!file.exists()) {
-                System.out.print("File tidak ditemukan! Mohon masukkan kembali nama file: ");
-                cdSPL = scanner.nextLine();
-
-                cdSPL = "../test/" + cdSPL + ".txt";
-                file = new File(cdSPL);
-                }
-
-            Matriks m = Matriks.ReadMatrixFromFile(file);
-
+        
+        // Input file
+        } else {
+            Matriks m = askForMatrixFromFile(scanner);
             return m;
         }
-        else
-        {
-            System.out.println("\nInput tidak valid!");
-            return askMatriksInput(scanner);
+    }
+
+    // 2. Slowly prints to terminal
+    public static void slowprint(String str) {
+        for (char c : str.toCharArray()) {
+            System.out.print(c);
+
+            try {
+                Thread.sleep(5); // Default: 50
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
         }
+
+        try {
+            Thread.sleep(100); // Default: 400
+        } catch (InterruptedException e) {
+                System.out.println(e);
+        }
+
+        System.out.println();
+    }
+
+    // 3. slowprint without newline
+    public static void slowprintNoNewline(String str) {
+       for (char c : str.toCharArray()) {
+            System.out.print(c);
+
+            try {
+                Thread.sleep(5); // Default: 50
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
+        }
+
+        try {
+            Thread.sleep(100); // Default: 400
+        } catch (InterruptedException e) {
+                System.out.println(e);
+        }
+    }
+
+    // 4. Ask for integer input
+    public static int askInput(int low, int high, Scanner scanner) {
+        int choice = low;
+        // Loop while input invalid
+        boolean inputInteger = true;
+
+        do {
+            System.out.print("Input menu: ");
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                inputInteger = true;
+
+                if (choice < low || choice > high) {
+                    slowprint("\nInput tidak valid. Silahkan masukkan kembali input integer.");
+                }
+            } else {
+                scanner.next();
+                slowprint("\nInput tidak valid. Silahkan masukkan kembali input integer.");
+                inputInteger = false;
+            }
+        } while (choice < low || choice > high || !inputInteger);
+    
+        return choice;
+    }
+
+    // 5. Print menu
+    public static void printMenu(String[] menu) {
+        for (String x : menu) {
+            slowprint(x);
+        }
+    }
+
+    // 6. Ask matrix input from file
+    public static Matriks askForMatrixFromFile(Scanner scanner) {
+        String filename;
+        File file;
+        boolean fileValid = true;
+
+        do {
+            System.out.print("Masukkan nama file matriks: ");
+            filename = scanner.next();
+            file = new File("./test/" + filename + ".txt");
+            
+            if (!file.exists()) {
+                slowprint("File tidak ditemukan! Mohon masukkan kembali nama file: ");
+                fileValid = false;
+            } else {
+                fileValid = true;
+            }
+        } while (!fileValid);
+
+        return Matriks.ReadMatrixFromFile(file);
     }
 }
