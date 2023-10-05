@@ -259,6 +259,220 @@ public class SPL {
     }
 
     // 4. Gauss-Jordan
+    public static void SPLGaussJordan(Matriks matriks){
+        //Proses Pertukaran Baris
+        //Cek berapa banyak kosong dalam baris
+        int[] cekkosong;
+        cekkosong = new int[matriks.row];
+        
+        for (int i = 0;i<matriks.row;i++)
+        {
+            cekkosong[i]=0;
+            int j = 0;
+            while(j<matriks.col && matriks.matrix[i][j] == 0)
+            {
+                cekkosong[i]++;
+                j++;
+            }
+        }
+        int[] temp;
+        temp = new int[matriks.row];
+        
+        for (int i = 0;i<matriks.row;i++)
+        {
+            temp[i]=0;
+            int j = 0;
+            while(j<matriks.col && matriks.matrix[i][j] == 0)
+            {
+                temp[i]++;
+                j++;
+            }
+        }
+        Arrays.sort(temp);
+        
+        // urutin baris dari yang 0 nya paling dikit atau ga ada
+        for (int i = 0;i<matriks.row;i++)
+        {
+            if (cekkosong[i] != temp[i])
+            {
+                int k = i + 1;
+                boolean check = false;
+                while (check == false && k < matriks.row)
+                {
+                    if (cekkosong[i] == temp[k])
+                    {
+                        check = true;
+                        matriks.OBE(2,i,-1,k);
+                    }
+                    k++;
+                }
+            }
+        }
+
+        //Lakukan eliminasi Gauss pada kolom i
+        for (int i = 0; i<matriks.row; i++)
+        {
+            int j = i;
+            while (j < matriks.col-1 && matriks.matrix[i][j] == 0)
+            {
+                j++;
+            }
+            if (j < matriks.col -1)
+            {
+                double konstanta = 1/matriks.matrix[i][j]; 
+                matriks.OBE(1, i, konstanta, -1);
+                for (int k = i+1; k<matriks.row; k++)
+                {
+                    if (matriks.matrix[k][j] != 0)
+                    {
+                        matriks.OBE(3,k,(-1)*matriks.matrix[k][j],i);
+                    }
+                }
+            }
+        }
+        // Mendeteksi Minus Zero dan mengubah ke zero
+        for (int i = 0; i < matriks.row; i++)
+        {
+            for (int j = 0; j < matriks.col; j++)
+            {
+                if (matriks.matrix[i][j] == -0.0)
+                {
+                    matriks.matrix[i][j] = 0.0;
+                }
+            }
+        }
+        //Pembulatan elemen matriks
+        for (int i = 0;i<matriks.row;i++)
+        {
+            for (int j = 0;j<matriks.col;j++)
+            {
+                matriks.matrix[i][j] = Math.round(matriks.matrix[i][j] * 1000000.0) / 1000000.0;
+            }
+        }
+
+        //Sudah terbentuk Matriks Eselon Baris
+        //Mengubah menjadi matriks eselon baris tereduksi
+        for (int i = matriks.row - 1; i >=0; i--){
+            boolean found = false; // untuk mencari elemen satu utama
+            int j = 0;
+            int jOne = -1;
+            while(found == false && j < matriks.col - 1){
+                if(matriks.matrix[i][j] == 1){
+                    found = true;
+                    jOne = j;
+                }
+                j++;
+            }
+            if(found == true){
+                for(int k = i-1; k>=0; k--){
+                    if(matriks.matrix[k][jOne] != 0){
+                        double pengali = matriks.matrix[k][jOne] / matriks.matrix[i][jOne];
+                        matriks.OBE(3, k, -pengali, i);
+                    }
+                }
+            }
+        }
+
+        // sudah terbentuk matriks eselon baris tereduksi
+        // akan ditentukan solusi spl
+        
+        if(matriks.matrix[matriks.row - 1][matriks.col - 1] != 0 && matriks.matrix[matriks.row - 1][matriks.col - 2] == 0){
+            // kasus tidak ada solusi
+            System.out.println("tidak ada solusi!");
+
+        } else if((matriks.matrix[matriks.row - 1][matriks.col - 1] == 0 && matriks.matrix[matriks.row - 1][matriks.col - 2] == 0) || (matriks.col-1 > matriks.row)){
+            // kasus solusi banyak
+            System.out.println("solusi banyak!");
+            String[] nilaiX = new String[matriks.col-1];
+            for(int i = matriks.row-1; i >= 0; i--){
+                boolean satu = false; // untuk pencarian elemen satu utama
+                boolean only = false;// untuk pengecekan apakah hanya satu elemen di baris tsb yg bukan nol
+                int j = 0; 
+                int jOne = -1;
+                while(!satu && j < matriks.col - 1){
+                    if(matriks.matrix[i][j] == 1){
+                        satu = true;
+                        jOne = j;
+                    }
+                    j++;
+                }
+                if(satu){
+                    only = true;
+                    for(int k = jOne + 1; k < matriks.col - 1; k++){
+                        if(matriks.matrix[i][k] != 0){
+                            only = false;
+                        }
+                    }
+                }
+
+                // kalau satu utama adalah satu-satunya elemen pada baris tsb maka simpan value augmented
+                if(only){
+                    nilaiX[jOne] = ""+Double.toString(matriks.matrix[i][matriks.col-1]);
+                }
+            }
+
+            // looping untuk mengganti nilai x dengan variavel a,b,c,...
+            for(int i = 0; i < matriks.col-1; i++){
+                if(nilaiX[i] == null){
+                    nilaiX[i] = "" + ((char)(97+i));
+                }
+            }
+
+            
+            for(int i = 0; i < matriks.col-1; i++){
+                System.out.println("nilai: "+nilaiX[i]);
+            }
+
+            //langkah untuk menentukan nilai x yang punya elemen satu utama
+            for(int i = 0; i < matriks.row; i++){
+                boolean satu = false; // untuk pencarian elemen satu utama
+                boolean only = false;// untuk pengecekan apakah hanya satu elemen di baris tsb yg bukan nol
+                int j = 0; 
+                int jOne = -1;
+                while(!satu && j < matriks.col - 1){
+                    if(matriks.matrix[i][j] == 1){
+                        satu = true;
+                        jOne = j;
+                    }
+                    j++;
+                }
+                if(satu){
+                    only = true;
+                    for(int k = jOne + 1; k < matriks.col - 1; k++){
+                        if(matriks.matrix[i][k] != 0){
+                            only = false;
+                        }
+                    }
+                }
+
+                // kalau satu utama tapi di belakangnya masih ada angka selain nol
+                if(!only&&jOne != -1){
+                    System.out.print("x"+(jOne + 1)+" = ");
+                    if(matriks.matrix[i][matriks.col-1] != 0){
+                        System.out.print(matriks.matrix[i][matriks.col-1]);
+                    }
+                    for(int k = jOne+1; k < matriks.col-1; k++){
+                        if(matriks.matrix[i][k] > 0){
+                            System.out.print(" "+-(matriks.matrix[i][k])+nilaiX[k]);
+                        } else if(matriks.matrix[i][k] < 0){
+                            System.out.print(" +"+-(matriks.matrix[i][k])+nilaiX[k]);
+                        }
+                    }
+                    System.out.println();
+                }
+            }
+            for(int i = 0; i < matriks.col - 1; i++){
+                System.out.println("x"+(i+1)+" = "+nilaiX[i]);
+            }
+            
+        } else{
+            // kasus solusi unik
+            System.out.println("solusi unik");
+            for(int i = 0; i < matriks.row; i++){
+                System.out.println("x"+(i+1)+": "+matriks.matrix[i][matriks.col-1]);
+            }
+        }
+    }
 
     // 5. Matriks Balikan
     public static void SPLBalikan(Matriks matriks) {
