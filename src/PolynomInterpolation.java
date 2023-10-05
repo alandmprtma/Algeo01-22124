@@ -42,7 +42,7 @@ public class PolynomInterpolation {
             scanner.nextLine();
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "./output/" + cdfile + ".txt";
+            cdfile = "../output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             for (int i = 0; i < 1; i++)
             {
@@ -230,7 +230,11 @@ public class PolynomInterpolation {
                 {
                     fungsi += Double.toString(solusi[i]);
                 }
-                else if (i == 1)
+                else if (i == 1 && solusi[i] > 0)
+                {
+                    fungsi += " + " + Double.toString(solusi[i]) + "X";
+                }
+                else if (i == 1 && solusi[i] < 0)
                 {
                     fungsi += " " + Double.toString(solusi[i]) + "X";
                 }
@@ -242,7 +246,7 @@ public class PolynomInterpolation {
                 {
                     fungsi += " " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
                 } 
-                else
+                else if (solusi[i] > 0)
                 {
                     fungsi += " + " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
                 }
@@ -265,12 +269,12 @@ public class PolynomInterpolation {
         try {
             System.out.print("Masukkan nama file yang ingin diinterpolasi: ");
             String filename = scanner.next();
-            filename = "./test/" + filename + ".txt";
+            filename = "../test/" + filename + ".txt";
             File file = new File(filename);
             while(!file.exists()){
                 System.out.print("File tidak ditemukan! Mohon masukkan kembali nama file: ");
                 filename = scanner.next();
-                filename = "./test/" + filename + ".txt";
+                filename = "../test/" + filename + ".txt";
                 file = new File(filename);
             }
             BufferedReader read = new BufferedReader(new FileReader(filename));
@@ -477,7 +481,11 @@ public class PolynomInterpolation {
                 {
                     fungsi += Double.toString(solusi[i]);
                 }
-                else if (i == 1)
+                else if (i == 1 && solusi[i] > 0)
+                {
+                    fungsi += " + " + Double.toString(solusi[i]) + "X";
+                }
+                else if (i == 1 && solusi[i] < 0)
                 {
                     fungsi += " " + Double.toString(solusi[i]) + "X";
                 }
@@ -489,7 +497,7 @@ public class PolynomInterpolation {
                 {
                     fungsi += " " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
                 } 
-                else
+                else if (solusi[i] > 0)
                 {
                     fungsi += " + " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
                 }
