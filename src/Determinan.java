@@ -21,6 +21,30 @@ public class Determinan {
         scanner.close();
     }
 
+    // Driver
+    public static void DriverDeterminan(Scanner scanner) {
+        // Header
+        App.slowprint("Determinan");
+        String[] Determinan_choice = {
+            "1. Determinan dengan Operasi Baris Elementer (OBE)", 
+            "2. Determinan dengan Ekspansi Kofaktor"
+        };
+        App.printMenu(Determinan_choice);
+
+        // Ask for input
+        int choiceDeterminan = App.askInput(1, 2, scanner);
+
+        // Run code for chosen method
+        if (choiceDeterminan == 1) {
+            Matriks m = App.askMatriksInput(scanner);
+            Determinan.DeterminanOBE(m);
+        }
+        else {
+            Matriks m = App.askMatriksInput(scanner);
+            Determinan.DeterminanKofaktor(m); 
+        }
+    }
+
     // 1. PrintDeterminanToFile
     public static void PrintDeterminantoFile(double determinan) {
         try (Scanner scanner = new Scanner(System.in)){
@@ -50,13 +74,13 @@ public class Determinan {
         } else{
             // matriks adalah matriks persegi
             for(int i = 0; i < matriks.row; i++){
-                if(matriks.rowZero(matriks, i)){
+                if(Matriks.rowZero(matriks, i)){
                     return 0;
                 }
             }
 
             for(int j = 0; j < matriks.col; j++){
-                if(matriks.colZero(matriks, j)){
+                if(Matriks.colZero(matriks, j)){
                     return 0;
                 }
             }
@@ -81,7 +105,7 @@ public class Determinan {
                 matriks.OBE(2, 0, 0, iTuker);
             }
             
-            c = matriks.segitigaBawah(matriks);
+            c = Matriks.segitigaBawah(matriks);
 
             // while loop untuk operasi OBE sampai jadi matriks segitiga bawah
             while(c == false){
@@ -106,7 +130,7 @@ public class Determinan {
                 matriks.OBE(3, iNotZero, -pengali, jNotZero);
 
                 // pengecekan lagi apakah sudah matriks segitiga bawah
-                c = matriks.segitigaBawah(matriks);
+                c = Matriks.segitigaBawah(matriks);
                 matriks.printMatrix();
                 System.out.println("\n");
             }

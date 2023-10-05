@@ -3,7 +3,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class Balikan {
-    
     // Methods
     public static void main(String[] args) throws IOException {
         // Matriks MatriksX = BicubicSplineInterpolation.MatriksX();
@@ -24,6 +23,29 @@ public class Balikan {
 
         // Close scanner
         scanner.close();
+    }
+
+    // Driver
+    public static void driverBalikan(Scanner scanner) {
+        // Header
+        App.slowprint("Mencari Matriks Balikan");
+
+        String[] Balikan_choice = {
+            "1. Metode Gauss-Jordan",
+            "2. Metode Adjoin"
+        };
+        App.printMenu(Balikan_choice);
+
+        // Ask for input
+        int choiceBalikan = App.askInput(1, 2, scanner);
+        Matriks m = App.askMatriksInput(scanner);
+
+        // Run code for chosen method
+        if (choiceBalikan == 1) {
+            BalikanGaussJordan(m);
+        } else {
+            BalikanAdjoin(m);
+        }
     }
 
     // 1. Balikan Gauss-Jordan
