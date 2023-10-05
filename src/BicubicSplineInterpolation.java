@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -30,6 +31,95 @@ public class BicubicSplineInterpolation {
 
         scanner.close();
     }
+
+    // Driver
+    public static void BicubicSplineInterpolationDriver(Scanner scanner) {
+        // Get file data
+        String filename;
+        File file;
+        boolean fileValid = true;
+
+        do {
+            System.out.print("Masukkan nama file matriks: ");
+            filename = scanner.next();
+            file = new File("./test/" + filename + ".txt");
+            
+            if (!file.exists()) {
+                App.slowprint("File tidak ditemukan! Mohon masukkan kembali nama file: ");
+                fileValid = false;
+            } else {
+                fileValid = true;
+            }
+        } while (!fileValid);
+
+        // Get matrix and x, y data
+        Matriks input = readBicubicSplineFromFile(file);
+        Matriks matrix4x4 = get4x4Matrix(input);
+        double x = getX(input);
+        double y = getY(input);
+
+        // matrix4x4.printMatrix();
+        // App.slowprint(String.format("x = %f\n", x));
+        // App.slowprint(String.format("x = %f\n", y));
+
+        // Output result
+        App.slowprint("Result: ");
+        // String str = String.format("f(%f, %f) = %f", x, y, GetBicubicSplineInterpolation(x, y, MatriksA(matrix4x4)));
+
+        Matriks A = MatriksA(matrix4x4);
+        A.printMatrix();
+
+        // App.slowprint(str);
+    }
+
+    public static Matriks readBicubicSplineFromFile(File file) {
+        try {
+            Scanner scan = new Scanner(file);
+
+            // Get 4x4 matrix
+            Matriks matriks = new Matriks(5, 4);
+            int i, j;
+            for (i = 0; i < 5; i++) {
+                String row = scan.nextLine();
+                String[] rowArray = row.split(" ");
+
+                int k = 2;
+                if (i < 4) {
+                    k = 4;
+                }
+                for (j = 0; j < k; j++) {
+                    matriks.matrix[i][j] = Double.parseDouble(rowArray[j]);
+                }
+            }
+
+            scan.close();
+            
+            return matriks;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    public static Matriks get4x4Matrix(Matriks fileMatrix) {
+        Matriks coor = new Matriks(4, 4);
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                coor.matrix[i][j] = fileMatrix.matrix[i][j];
+            }
+        }
+        return coor;
+    }
+
+    public static double getX(Matriks fileMatriks) {
+        return fileMatriks.matrix[4][0];
+    }
+
+    public static double getY(Matriks fileMatriks) {
+        return fileMatriks.matrix[4][1];
+    }
+    // Methods
 
     public static Matriks BarisMatriksX(int x, int y, boolean turunanX, boolean turunanY) {
         Matriks barisKoef = new Matriks(1, 16);
