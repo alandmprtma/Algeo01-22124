@@ -38,6 +38,14 @@ public class App {
             Balikan.driverBalikan(scanner);
         }
 
+        else if (choice == 4) {
+            PolynomInterpolation.PolynomInterpolationDriver(scanner);
+        }
+
+        else if (choice == 5) {
+            BicubicSplineInterpolation.BicubicSplineInterpolationDriver(scanner);
+        }
+
         // Close scanner
         scanner.close();
     }
