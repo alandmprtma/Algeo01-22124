@@ -159,7 +159,7 @@ public class App {
         do {
             System.out.print("Masukkan nama file matriks: ");
             filename = scanner.next();
-            file = new File("./test/" + filename + ".txt");
+            file = new File("../test/" + filename + ".txt");
             
             if (!file.exists()) {
                 slowprint("File tidak ditemukan! Mohon masukkan kembali nama file: ");

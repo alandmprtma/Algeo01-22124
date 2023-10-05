@@ -49,7 +49,7 @@ public class SPL {
             System.out.print("Masukkan nama file untuk menyimpan solusi SPL : ");
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "./output/" + cdfile + ".txt";
+            cdfile = "../output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             tulis.write("Solusi SPL :\n");
             for (int i = 0; i < solusi.length; i++)
@@ -71,7 +71,7 @@ public class SPL {
             System.out.print("Masukkan nama file untuk menyimpan solusi parametrik SPL : ");
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "../output/" + cdfile + ".txt";
+            cdfile = "./output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             tulis.write("Solusi Parametrik :\n");
             for (int i = 0; i < n; i++)
@@ -86,19 +86,98 @@ public class SPL {
         }
     }
 
-    public static void PrintParametriktoFilejordan(String[] variabel) {
+    // 3. PrintSolusiParametriktoFile
+    public static void PrintParametriktoFilejordan(Matriks matriks) {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Masukkan nama file untuk menyimpan solusi parametrik SPL : ");
             String cdfile;
-            int n = variabel.length;
             cdfile = scanner.nextLine();
             cdfile = "../output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
-            tulis.write("Solusi Parametrik :\n");
-            for (int i = 0; i < n; i++)
-            {
-                tulis.write("x" + i + " = " + variabel[i] + "\n");
+            String[] nilaiX = new String[matriks.col-1];
+            tulis.write("Solusi Parametrik:\n");
+            for(int i = matriks.row-1; i >= 0; i--){
+                boolean satu = false; // untuk pencarian elemen satu utama
+                boolean only = false;// untuk pengecekan apakah hanya satu elemen di baris tsb yg bukan nol
+                int j = 0; 
+                int jOne = -1;
+                while(!satu && j < matriks.col - 1){
+                    if(matriks.matrix[i][j] == 1){
+                        satu = true;
+                        jOne = j;
+                    }
+                    j++;
+                }
+                if(satu){
+                    only = true;
+                    for(int k = jOne + 1; k < matriks.col - 1; k++){
+                        if(matriks.matrix[i][k] != 0){
+                            only = false;
+                        }
+                    }
+                }
+
+                // kalau satu utama adalah satu-satunya elemen pada baris tsb maka simpan value augmented
+                if(only){
+                    nilaiX[jOne] = ""+Double.toString(matriks.matrix[i][matriks.col-1]);
+                }
+            }
+
+            // looping untuk mengganti nilai x dengan variavel a,b,c,...
+            for(int i = 0; i < matriks.col-1; i++){
+                if(nilaiX[i] == null){
+                    nilaiX[i] = "" + ((char)(97+i));
+                }
+            }
+
+            int[] tempo = new int[matriks.col -1];
+
+            //langkah untuk menentukan nilai x yang punya elemen satu utama
+            for(int i = 0; i < matriks.row; i++){
+                boolean satu = false; // untuk pencarian elemen satu utama
+                boolean only = false;// untuk pengecekan apakah hanya satu elemen di baris tsb yg bukan nol
+                int j = 0; 
+                int jOne = -1;
+                while(!satu && j < matriks.col - 1){
+                    if(matriks.matrix[i][j] == 1){
+                        satu = true;
+                        jOne = j;
+                    }
+                    j++;
+                }
+                if(satu){
+                    only = true;
+                    for(int k = jOne + 1; k < matriks.col - 1; k++){
+                        if(matriks.matrix[i][k] != 0){
+                            only = false;
+                        }
+                    }
+                }
+
+                // kalau satu utama tapi di belakangnya masih ada angka selain nol
+                if(!only&&jOne != -1){
+                    tulis.write("x"+(jOne + 1)+" = ");
+                    if(matriks.matrix[i][matriks.col-1] != 0){
+                        tulis.write("" + matriks.matrix[i][matriks.col-1]);
+                    }
+                    for(int k = jOne+1; k < matriks.col-1; k++){
+                        if(matriks.matrix[i][k] > 0){
+                            tulis.write(" "+-(matriks.matrix[i][k])+nilaiX[k]);
+                            tempo[jOne] = 1;
+                        } else if(matriks.matrix[i][k] < 0){
+                            tulis.write(" +"+-(matriks.matrix[i][k])+nilaiX[k]);
+                            tempo[jOne] = 1;
+                        }
+                    }
+                    tulis.write("\n");
+                }
+            }
+            for(int i = 0; i < matriks.col - 1; i++){
+                if (tempo[i] != 1)
+                {
+                    tulis.write("x"+(i+1)+" = "+nilaiX[i]+"\n");
+                }
             }
             tulis.close();
             scanner.close();
@@ -108,7 +187,7 @@ public class SPL {
         }
     }
 
-    // 3. Gauss
+    // 4. Gauss
     public static void SPLGauss(Matriks matriks) {
         //Proses Pertukaran Baris
         //Cek berapa banyak kosong dalam baris
@@ -239,7 +318,7 @@ public class SPL {
                             if (matriks.matrix[i][j]!=0){
                                 matriks.matrix[i][j] = matriks.matrix[i][j]*(-1);
                                 if (tempvariable[j][1] == "0"){
-                                    if((matriks.matrix[i][j]/(Double.valueOf((tempvariable[count][2]))))>0){
+                                    if((matriks.matrix[i][j]/(Double.valueOf((tempvariable[count][2])))*Double.valueOf(tempvariable[j][0]))>0){
                                         nilaisementara = nilaisementara + ((matriks.matrix[i][j]/(Double.valueOf(tempvariable[count][2])))*Double.valueOf(tempvariable[j][0]));
                                     }
                                 }
@@ -265,7 +344,7 @@ public class SPL {
                         tempvariable[count][0] = ""+tempvariable[count][0] + " - " + Double.toString(Math.abs(nilaisementara)); 
                     }
                     else if(nilaisementara != 0 || (nilaisementara == 0 && tempvariable[count][0] == "")){
-                        tempvariable[count][0] = ""+tempvariable[count][0] + " + " + Double.toString(Math.abs(nilaisementara)); 
+                        tempvariable[count][0] = ""+tempvariable[count][0] + " +" + Double.toString(Math.abs(nilaisementara)); 
                     }
                     count--;
                 }
@@ -310,7 +389,7 @@ public class SPL {
         }
     }
 
-    // 4. Gauss-Jordan
+    // 5. Gauss-Jordan
     public static void SPLGaussJordan(Matriks matriks){
         //Proses Pertukaran Baris
         //Cek berapa banyak kosong dalam baris
@@ -469,12 +548,7 @@ public class SPL {
                     nilaiX[i] = "" + ((char)(97+i));
                 }
             }
-
-            
-            for(int i = 0; i < matriks.col-1; i++){
-                System.out.println("nilai: "+nilaiX[i]);
-            }
-
+            int [] tempo = new int [matriks.col - 1];
             //langkah untuk menentukan nilai x yang punya elemen satu utama
             for(int i = 0; i < matriks.row; i++){
                 boolean satu = false; // untuk pencarian elemen satu utama
@@ -506,17 +580,21 @@ public class SPL {
                     for(int k = jOne+1; k < matriks.col-1; k++){
                         if(matriks.matrix[i][k] > 0){
                             System.out.print(" "+-(matriks.matrix[i][k])+nilaiX[k]);
+                            tempo[jOne] = 1;
                         } else if(matriks.matrix[i][k] < 0){
                             System.out.print(" +"+-(matriks.matrix[i][k])+nilaiX[k]);
+                            tempo[jOne] = 1;
                         }
                     }
                     System.out.println();
                 }
             }
             for(int i = 0; i < matriks.col - 1; i++){
-                System.out.println("x"+(i+1)+" = "+nilaiX[i]);
+                if (tempo[i] != 1){
+                    System.out.println("x"+(i+1)+" = "+nilaiX[i]);
+                }
             }
-            PrintParametriktoFilejordan(nilaiX);
+            PrintParametriktoFilejordan(matriks);
             
         } else{
             // kasus solusi unik
@@ -530,7 +608,7 @@ public class SPL {
         }
     }
 
-    // 5. Matriks Balikan
+    // 6. Matriks Balikan
     public static void SPLBalikan(Matriks matriks) {
         Matriks coefficients = new Matriks(matriks.row, matriks.col - 1);
         Matriks constants = new Matriks(matriks.row, 1);
@@ -552,7 +630,7 @@ public class SPL {
         results.printMatrix();
     }
 
-    // 6. Cramer
+    // 7. Cramer
     public static void SPLCramer(Matriks matriks) {
         if (matriks.row == matriks.col - 1)
         {
@@ -601,7 +679,7 @@ public class SPL {
             }
         }
         else{
-            App.slowprint("Matriks tidak valid karena bukan merupakan matriks augmented!");
+            System.out.println("Matriks tidak dapat diselesaikan dengan kaidah cramer! Silahkan mencoba metode SPL lain.");
         }
     }
 }
