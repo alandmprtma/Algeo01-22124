@@ -12,6 +12,11 @@ public class PolynomInterpolation {
         PolinomInterpolasiFile();
     }
 
+    // Driver
+    // App.slowprint("Interpolasi Polinom");
+
+
+
     // 1. PrintPolinomToFile
     public static void PrintPolinomtoFile(double y, Scanner scanner, String fx) {
         try {
