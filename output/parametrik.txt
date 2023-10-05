@@ -1,5 +1,5 @@
-Solusi Parametrik :
-x0 = 1.02.0c-2.0c + 1.0d - 1.0
-x1 = 2.0c
-x2 = c
-x3 = d
+x1 = 3.0 +1.0e
+x2 =  +2.0e
+x4 = -1.0 +1.0e
+x3 = c
+x5 = e
