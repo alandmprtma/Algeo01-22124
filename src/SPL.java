@@ -56,6 +56,29 @@ public class SPL {
             e.printStackTrace();
         }
     }
+
+    public static void PrintParametriktoFilejordan(String[] variabel) {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Masukkan nama file untuk menyimpan solusi parametrik SPL : ");
+            String cdfile;
+            int n = variabel.length;
+            cdfile = scanner.nextLine();
+            cdfile = "../output/" + cdfile + ".txt";
+            BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
+            tulis.write("Solusi Parametrik :\n");
+            for (int i = 0; i < n; i++)
+            {
+                tulis.write("x" + i + " = " + variabel[i] + "\n");
+            }
+            tulis.close();
+            scanner.close();
+            System.out.println("Data telah disimpan ke file " + cdfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // 3. Gauss
     public static void SPLGauss(Matriks matriks) {
         //Proses Pertukaran Baris
@@ -464,12 +487,15 @@ public class SPL {
             for(int i = 0; i < matriks.col - 1; i++){
                 System.out.println("x"+(i+1)+" = "+nilaiX[i]);
             }
+            PrintParametriktoFilejordan(nilaiX);
             
         } else{
             // kasus solusi unik
             System.out.println("solusi unik");
+            double[] nilai = new double[matriks.row];
             for(int i = 0; i < matriks.row; i++){
                 System.out.println("x"+(i+1)+": "+matriks.matrix[i][matriks.col-1]);
+                nilai[i] = matriks.matrix[i][matriks.col-1];
             }
         }
     }
