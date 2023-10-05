@@ -82,7 +82,7 @@ public class Matriks {
 
     // 1. ReadMatrix
     public void readMatrix(Scanner s) {
-        System.out.println("======== Mengisi matriks row x col ========");
+        App.slowprint("======== Mengisi Matriks row x col ========");
         
         System.out.print("row: ");
         int row = s.nextInt();
@@ -112,15 +112,18 @@ public class Matriks {
         int i;
         for (i = 0; i < this.row; i++) {
             int j;
-            System.out.print("[");
+            String str = "";
+            str += "[";
+
             for (j = 0; j < this.col; j++) {
-                System.out.print(this.matrix[i][j]);
+                str += Double.toString(this.matrix[i][j]);
                 if (j != this.col - 1) {
-                    System.out.print(" ");
-                } else {
-                    System.out.print("]\n");
+                    str += " ";
                 }
             }
+
+            str += "]";
+            App.slowprint(str);
         }
     }
 
@@ -347,5 +350,16 @@ public class Matriks {
             }
         }
         return zero;
+    }
+
+    // 15. nentuin apakah semua elemen di atasnya 0
+    public static boolean zeroAbove(Matriks matriks, int row, int col){
+        boolean check = true;
+        for (int j = col; j > -1; j--){
+            if(matriks.matrix[row][j] != 0){
+                check = false;
+            }
+        }
+        return check;
     }
 }
