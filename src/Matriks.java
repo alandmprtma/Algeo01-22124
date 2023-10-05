@@ -348,4 +348,15 @@ public class Matriks {
         }
         return zero;
     }
+
+    // 15. nentuin apakah semua elemen di atasnya 0
+    public static boolean zeroAbove(Matriks matriks, int row, int col){
+        boolean check = true;
+        for (int j = col; j > -1; j--){
+            if(matriks.matrix[row][j] != 0){
+                check = false;
+            }
+        }
+        return check;
+    }
 }
