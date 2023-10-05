@@ -81,14 +81,24 @@ public class Matriks {
     // Methods
 
     // 1. ReadMatrix
-    public void readMatrix(Scanner s) {
+    public void readMatrix(Scanner s, int type) {
+        // type: 1 = SPL, 2 = Determinan/Balikan
         App.slowprint("======== Mengisi Matriks row x col ========");
-        
-        System.out.print("row: ");
-        int row = s.nextInt();
 
-        System.out.print("col: ");
-        int col = s.nextInt();
+        int row, col;
+        
+        if (type == 2) {
+            System.out.print("Ukuran matriks: ");
+            int n = s.nextInt();
+            row = n;
+            col = n;
+        } else {
+            System.out.print("Jumlah row: ");
+            row = s.nextInt();
+    
+            System.out.print("Jumlah col: ");
+            col = s.nextInt();
+        }
 
         this.matrix = new double[row][col];
         this.row = row;

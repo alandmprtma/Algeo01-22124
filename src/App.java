@@ -44,7 +44,7 @@ public class App {
 
     // Additional Functions
     // 1. Ask for terminal matrix input
-    public static Matriks askMatriksInput(Scanner scanner) {
+    public static Matriks askMatriksInput(Scanner scanner, int type) {
         Matriks matriks = new Matriks(0, 0);
         
         // Header
@@ -60,7 +60,7 @@ public class App {
 
         // Input terminal
         if (choice == 1) {
-            matriks.readMatrix(scanner);
+            matriks.readMatrix(scanner, type);
             return matriks;
         
         // Input file
