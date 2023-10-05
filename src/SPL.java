@@ -34,7 +34,7 @@ public class SPL {
         if (choiceSPL == 1) {
             SPLGauss(m);
         } else if (choiceSPL == 2) {
-
+            SPLGaussJordan(m);
         } else if (choiceSPL == 3) {
             SPLBalikan(m);
         } else {

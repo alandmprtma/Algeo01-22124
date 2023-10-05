@@ -13,7 +13,25 @@ public class PolynomInterpolation {
     }
 
     // Driver
-    // App.slowprint("Interpolasi Polinom");
+    public static void PolynomInterpolationDriver(Scanner scanner) {
+        App.slowprint("Interpolasi Polinom");
+        App.slowprint("\nPilih metode untuk input: ");
+        
+        String[] input = {
+            "1. Input melalui terminal", 
+            "2. Input dari suatu file .txt"
+        };
+        App.printMenu(input);
+
+        int choice = App.askInput(1, 2, scanner);
+
+        if (choice == 1) {
+            PolinomInterpolasiKey();
+        } else {
+            PolinomInterpolasiFile();
+        }
+    }
+
 
 
 
