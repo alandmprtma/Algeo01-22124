@@ -181,7 +181,7 @@ public class Matriks {
         writer.close();
     }
 
-    // 4. Multiply
+    // 5. Multiply
     public static Matriks Multiply(Matriks a, Matriks b) {
         Matriks c = new Matriks(a.row, b.col);
         int i, j, k;
@@ -201,7 +201,7 @@ public class Matriks {
         return c;
     }
 
-    // 5. Transpose
+    // 6. Transpose
     public static Matriks Transpose(Matriks matriks) {
         Matriks transposeMatrix = new Matriks(matriks.col, matriks.row);
         int i, j;
@@ -215,9 +215,31 @@ public class Matriks {
         return transposeMatrix;
     }
 
-    // 6. OBE
-
-    // 7. Kofaktor
+    // 7. OBE
+    public void OBE(int operasi, int baris, double k, int baris2) {
+        // Operasi = 1 -> Kalikan baris dengan k
+        // Operasi = 2 -> Tukar baris dengan baris2
+        // Operasi = 3 -> Tambahkan baris dengan k * baris2
+        if (operasi == 1) {
+            int j;
+            for (j = 0; j < this.col; j++) {
+                this.matrix[baris][j] *= k;
+            }
+        } else if (operasi == 2) {
+            int j;
+            for (j = 0; j < this.col; j++) {
+                double temp = this.matrix[baris][j];
+                this.matrix[baris][j] = this.matrix[baris2][j];
+                this.matrix[baris2][j] = temp;
+            }
+        } else if (operasi == 3) {
+            int j;
+            for (j = 0; j < this.col; j++) {
+                this.matrix[baris][j] += k * this.matrix[baris2][j];
+            }
+        }
+    }
+    // 8. Kofaktor
     public double Kofaktor(int row, int col) {
         Matriks minorEntry = new Matriks(this.row - 1, this.col - 1);
         int mrow = 0;
@@ -241,7 +263,7 @@ public class Matriks {
         return kofaktor;
     }
 
-    // 8. Matriks Kofaktor
+    // 9. Matriks Kofaktor
     public static Matriks MatriksKofaktor(Matriks matriks) {
         Matriks matKofaktor = new Matriks(matriks.row, matriks.col);
 
@@ -255,7 +277,7 @@ public class Matriks {
         return matKofaktor;
     }
 
-    // 9. Matriks Identitas
+    // 10. Matriks Identitas
     public static Matriks MatriksIdentitas(int n) {
         Matriks m = new Matriks(n, n);
         int i, j;
@@ -267,7 +289,7 @@ public class Matriks {
         return m;
     }
 
-    // 10. Matriks Nol
+    // 11. Matriks Nol
     public static Matriks MatriksNol(int n) {
         Matriks m = new Matriks(n, n);
         int i, j;
@@ -279,7 +301,7 @@ public class Matriks {
         return m;   
     }
 
-    // 11. Multiply by k
+    // 12. Multiply by k
     public void MultiplyByConstant(double k) {
         int i, j;
         for (i = 0; i < this.row; i++) {
@@ -287,5 +309,43 @@ public class Matriks {
                 this.matrix[i][j] *= k;
             }
         }
+    }
+
+    // 12. isSegitiga Bawah. Fungsi untuk menentukan apakah sebuah matriks adalah matriks segitiga bawah
+    public static boolean segitigaBawah(Matriks matriks){
+        boolean isSegitigaBawah = true;
+        for(int i = 0; i < matriks.row; i++){
+            for(int j = 0; j < matriks.col; j++){
+                if(i > j){
+                    if(matriks.matrix[i][j] != 0){
+                        isSegitigaBawah = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return isSegitigaBawah;
+    }
+
+    // 13. semua elemen kolom zero
+    public static boolean colZero(Matriks matriks, int col){
+        boolean zero = true;
+        for (int i = 0; i < matriks.row; i++){
+            if(matriks.matrix[i][col] != 0){
+                zero = false;
+            }
+        }
+        return zero;
+    }
+
+    // 14. semua elemen baris zero
+    public static boolean rowZero(Matriks matriks, int row){
+        boolean zero = true;
+        for(int j = 0; j < matriks.col; j++){
+            if(matriks.matrix[row][j] != 0){
+                zero = false;
+            }
+        }
+        return zero;
     }
 }
