@@ -20,7 +20,7 @@ public class SPL {
             System.out.print("Masukkan nama file untuk menyimpan solusi SPL : ");
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "./output/" + cdfile + ".txt";
+            cdfile = "../output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             tulis.write("Solusi SPL :\n");
             for (int i = 0; i < solusi.length; i++)
@@ -42,7 +42,7 @@ public class SPL {
             System.out.print("Masukkan nama file untuk menyimpan solusi parametrik SPL : ");
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "../output/" + cdfile + ".txt";
+            cdfile = "./output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             tulis.write("Solusi Parametrik :\n");
             for (int i = 0; i < n; i++)
@@ -187,7 +187,7 @@ public class SPL {
                             if (matriks.matrix[i][j]!=0){
                                 matriks.matrix[i][j] = matriks.matrix[i][j]*(-1);
                                 if (tempvariable[j][1] == "0"){
-                                    if((matriks.matrix[i][j]/(Double.valueOf((tempvariable[count][2]))))>0){
+                                    if((matriks.matrix[i][j]/(Double.valueOf((tempvariable[count][2])))*Double.valueOf(tempvariable[j][0]))>0){
                                         nilaisementara = nilaisementara + ((matriks.matrix[i][j]/(Double.valueOf(tempvariable[count][2])))*Double.valueOf(tempvariable[j][0]));
                                     }
                                 }
@@ -213,7 +213,7 @@ public class SPL {
                         tempvariable[count][0] = ""+tempvariable[count][0] + " - " + Double.toString(Math.abs(nilaisementara)); 
                     }
                     else if(nilaisementara != 0 || (nilaisementara == 0 && tempvariable[count][0] == "")){
-                        tempvariable[count][0] = ""+tempvariable[count][0] + " + " + Double.toString(Math.abs(nilaisementara)); 
+                        tempvariable[count][0] = ""+tempvariable[count][0] + " +" + Double.toString(Math.abs(nilaisementara)); 
                     }
                     count--;
                 }
@@ -331,7 +331,7 @@ public class SPL {
             }
         }
         else{
-            System.out.println("Matriks tidak valid karena bukan merupakan matriks augmented!");
+            System.out.println("Matriks tidak dapat diselesaikan dengan kaidah cramer! Silahkan mencoba metode SPL lain.");
         }
     }
 }
