@@ -19,10 +19,11 @@ public class PolynomInterpolation {
             scanner.nextLine();
             String cdfile;
             cdfile = scanner.nextLine();
-            cdfile = "../output/" + cdfile + ".txt";
+            cdfile = "./output/" + cdfile + ".txt";
             BufferedWriter tulis = new BufferedWriter(new FileWriter(cdfile));
             for (int i = 0; i < 1; i++)
             {
+                tulis.write("Persamaan interpolasi polinomial :\n");
                 tulis.write(fx+"\n");
                 tulis.write("nilai y yang telah ditaksir menggunakan fungsi polinom adalah "+y+".");
             }
@@ -70,6 +71,14 @@ public class PolynomInterpolation {
             }
             //Terbentuk matriks augmented
             double[] solusi = new double[n+1];
+            //Dilakukan pembatasan 3 angka desimal untuk menghilangkan unsignificant number pada proses eliminasi
+            for (i = 0; i < matriks.row; i++)
+            {
+                for (int j = 0; j < matriks.col; j++)
+                {
+                    matriks.matrix[i][j] = Math.round(matriks.matrix[i][j]*1000.0) / 1000.0;
+                }
+            }
             //Proses Pertukaran Baris
             //Cek berapa banyak kosong dalam baris
             int[] cekkosong;
@@ -206,16 +215,21 @@ public class PolynomInterpolation {
                 {
                     fungsi += "";
                 }
-                else
+                else if (solusi[i] < 0)
                 {
                     fungsi += " " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
                 } 
+                else
+                {
+                    fungsi += " + " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
+                }
             }
             for (i = 0; i < n+1; i++)
             {
                 y += solusi[i]*Math.pow(x,i);
             }
             y = Math.round(y * 1000000.0) / 1000000.0;
+            System.out.print("Persamaan interpolasi polinomial :\n");
             System.out.println(fungsi);
             System.out.println("nilai y yang telah ditaksir menggunakan fungsi polinom adalah "+y+".");
             PrintPolinomtoFile(y, scanner, fungsi);
@@ -228,12 +242,12 @@ public class PolynomInterpolation {
         try {
             System.out.print("Masukkan nama file yang ingin diinterpolasi: ");
             String filename = scanner.next();
-            filename = "../test/" + filename + ".txt";
+            filename = "./test/" + filename + ".txt";
             File file = new File(filename);
             while(!file.exists()){
                 System.out.print("File tidak ditemukan! Mohon masukkan kembali nama file: ");
                 filename = scanner.next();
-                filename = "../test/" + filename + ".txt";
+                filename = "./test/" + filename + ".txt";
                 file = new File(filename);
             }
             BufferedReader read = new BufferedReader(new FileReader(filename));
@@ -304,6 +318,14 @@ public class PolynomInterpolation {
             }
             //Terbentuk matriks augmented
             double[] solusi = new double[n+1];
+            //Dilakukan pembatasan 3 angka desimal untuk menghilangkan unsignificant number pada proses eliminasi
+            for (i = 0; i < augmented.row; i++)
+            {
+                for (int j = 0; j < augmented.col; j++)
+                {
+                    augmented.matrix[i][j] = Math.round(augmented.matrix[i][j]*1000.0) / 1000.0;
+                }
+            }
             //Proses Pertukaran Baris
             //Cek berapa banyak kosong dalam baris
             int[] cekkosong;
@@ -440,16 +462,21 @@ public class PolynomInterpolation {
                 {
                     fungsi += "";
                 }
-                else
+                else if (solusi[i] < 0)
                 {
                     fungsi += " " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
                 } 
+                else
+                {
+                    fungsi += " + " + Double.toString(solusi[i]) + "X^" + Integer.toString(i);
+                }
             }
             for (i = 0; i < n; i++)
             {
                 y += solusi[i]*Math.pow(x,i);
             }
             y = Math.round(y * 1000000.0) / 1000000.0;
+            System.out.print("Persamaan interpolasi polinomial :\n");
             System.out.print(fungsi + "\n");
             System.out.print("nilai y yang telah ditaksir menggunakan fungsi polinom adalah "+y+".\n");
             PrintPolinomtoFile(y,scanner, fungsi);
